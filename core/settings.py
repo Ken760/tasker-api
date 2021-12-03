@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'corsheaders',
+    'accounts',
+    'tasker',
 ]
 
 MIDDLEWARE = [
@@ -89,10 +91,10 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '',
+        'NAME': 'test123',
         'USER': 'postgres',
-        'PASSWORD': '',
-        'HOST': '',
+        'PASSWORD': 'W0FScDQVpCj3?CX',
+        'HOST': 'localhost',
         'PORT': '5432'
     }
 }
@@ -141,4 +143,5 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'accounts.UserAccount'
