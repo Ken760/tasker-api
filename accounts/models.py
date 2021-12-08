@@ -41,6 +41,8 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     roles = models.CharField(max_length=50, choices=ROLES, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    #call_sign(name=callSign)
+    activity = models.CharField(max_length=100, null=True, blank=True)
 
     objects = UserAccountManager()
 
