@@ -31,6 +31,7 @@ LANGUAGE = (
     ("Java", "Java"),
 )
 
+
 class Task(models.Model):
     """Задачи"""
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
