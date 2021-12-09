@@ -37,7 +37,7 @@ class Task(models.Model):
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=40)
     text = models.TextField(max_length=500, blank=True, null=True)
-    solution_text = models.TextField(max_length=500, blank=True, null=True)
+    solution_text = models.TextField(max_length=500, blank=True, null=True, name='solutionText')
     uuid = models.SlugField(max_length=160, unique=True, blank=True)
     confirmed = models.BooleanField(default=False, name='isConfirmed')
     created_date = models.DateTimeField(auto_now_add=True, name='createdDate')
@@ -45,6 +45,7 @@ class Task(models.Model):
     theme = models.CharField(max_length=50, choices=THEME, default='White', null=True)
     category = models.CharField(max_length=50, choices=CATEGORY, null=True)
     difficult = models.CharField(max_length=50, choices=DIFFICULT, null=True)
+    language = models.CharField(max_length=50, choices=LANGUAGE, null=True)
     # rating = models.ForeignKey()
     # comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE)
 
