@@ -11,11 +11,29 @@ THEME = (
     ("Blue", "Blue"),
     ("Yellow", "Yellow"),
 )
-
+CATEGORY = (
+    ("Aлгоритмы", "Aлгоритмы"),
+    ("Структуры данных", "Структуры данных"),
+    ("Архитектура", "Архитектура"),
+    ("Изучение основ языка", "Изучение основ языка", )
+)
+DIFFICULT = (
+    ("easy", "easy"),
+    ("medium", "medium"),
+    ("hard", "hard"),
+)
+LANGUAGE = (
+    ("C++", "C++"),
+    ("C", "C"),
+    ("C#", "C#"),
+    ("JavaScript", "JavaScript"),
+    ("Python", "Python"),
+    ("Java", "Java"),
+)
 
 class Task(models.Model):
     """Задачи"""
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     title = models.CharField(max_length=40)
     text = models.TextField(max_length=500, blank=True, null=True)
@@ -25,6 +43,8 @@ class Task(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, name='createdDate')
     updated_date = models.DateTimeField(auto_now=True, name='updatedDate')
     theme = models.CharField(max_length=50, choices=THEME, default='White', null=True)
+    category = models.CharField(max_length=50, choices=CATEGORY, null=True)
+    difficult = models.CharField(max_length=50, choices=DIFFICULT, null=True)
     # rating = models.ForeignKey()
     # comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE)
 
@@ -52,7 +72,7 @@ class Comment(models.Model):
 
 class Rating(models.Model):
     """Рейтинги"""
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments')
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='ratings')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
