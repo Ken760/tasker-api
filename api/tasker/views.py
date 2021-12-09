@@ -17,7 +17,7 @@ class ReadOnly(BasePermission):
         return request.method in SAFE_METHODS
 
 
-class PostView(APIView):
+class TaskView(APIView):
     """Добавление Задач"""
 
     queryset = Task.objects.all()
