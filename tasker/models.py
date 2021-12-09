@@ -38,7 +38,7 @@ class Task(models.Model):
     title = models.CharField(max_length=40)
     text = models.TextField(max_length=500, blank=True, null=True)
     solution_text = models.TextField(max_length=500, blank=True, null=True)
-    # url = models.SlugField(max_length=160, unique=True) #FIXME присвоить uuid
+    uuid = models.SlugField(max_length=160, unique=True, blank=True)
     confirmed = models.BooleanField(default=False, name='isConfirmed')
     created_date = models.DateTimeField(auto_now_add=True, name='createdDate')
     updated_date = models.DateTimeField(auto_now=True, name='updatedDate')
@@ -47,6 +47,11 @@ class Task(models.Model):
     difficult = models.CharField(max_length=50, choices=DIFFICULT, null=True)
     # rating = models.ForeignKey()
     # comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE)
+
+    def save(self, **kwargs):
+        if not self.id:
+            self.uuid = uuid.uuid4().hex[:8]
+        super().save(**kwargs)
 
     def __str__(self):
         return self.title
