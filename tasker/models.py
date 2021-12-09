@@ -35,11 +35,10 @@ LANGUAGE = (
 class Task(models.Model):
     """Задачи"""
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     title = models.CharField(max_length=40)
     text = models.TextField(max_length=500, blank=True, null=True)
     solution_text = models.TextField(max_length=500, blank=True, null=True)
-    url = models.SlugField(max_length=160, unique=True)
+    # url = models.SlugField(max_length=160, unique=True) #FIXME присвоить uuid
     confirmed = models.BooleanField(default=False, name='isConfirmed')
     created_date = models.DateTimeField(auto_now_add=True, name='createdDate')
     updated_date = models.DateTimeField(auto_now=True, name='updatedDate')
@@ -59,7 +58,7 @@ class Task(models.Model):
 
 class Comment(models.Model):
     """Отзывы"""
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments')
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField("Сообщение", max_length=1000)
 
@@ -73,7 +72,7 @@ class Comment(models.Model):
 
 class Rating(models.Model):
     """Рейтинги"""
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='ratings')
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='ratings')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
