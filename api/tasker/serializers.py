@@ -32,10 +32,23 @@ class TaskCreateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class CustomCharField(serializers.CharField):
+    """Кастомный сериализатор для ограничения текста"""
+    def __init__(self, repr_length, **kwargs):
+        self.repr_length = repr_length
+        super(CustomCharField, self).__init__(**kwargs)
+
+    def to_representation(self, value):
+        return super(CustomCharField, self).to_representation(value)[:self.repr_length]
+
+
 class TaskMainPageSerializer(serializers.ModelSerializer):
     """Короткий сериализатор задач для главной страницы"""
     createdDate = serializers.DateTimeField(format="%m.%d.%Y", read_only=True)
+    text = CustomCharField(repr_length=100)
 
     class Meta:
         model = Task
         fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'createdDate']
+
+

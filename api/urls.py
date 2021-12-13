@@ -6,8 +6,8 @@ from api.tasker.views import (
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
-    path('task/', TaskView.as_view()),
-    path('main/', TaskerMainPage.as_view()),
+    path('task/create/', TaskView.as_view()),
+    path('task/post/', TaskerMainPage.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
