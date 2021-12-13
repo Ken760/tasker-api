@@ -21,7 +21,7 @@ class RatingSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TaskMainPageSerializer(serializers.ModelSerializer):
+class TaskCreateSerializer(serializers.ModelSerializer):
     """Сериализатор задач"""
     comments = CommentSerializer(many=True)
     ratings = RatingSerializer(many=True)
@@ -30,3 +30,12 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = "__all__"
+
+
+class TaskMainPageSerializer(serializers.ModelSerializer):
+    """Короткий сериализатор задач для главной страницы"""
+    createdDate = serializers.DateTimeField(format="%m.%d.%Y", read_only=True)
+
+    class Meta:
+        model = Task
+        fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'createdDate']

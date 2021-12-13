@@ -1,10 +1,12 @@
 from rest_framework import viewsets, status
 from rest_framework.generics import ListAPIView, GenericAPIView
+from rest_framework.status import HTTP_200_OK
 from rest_framework.views import APIView
 from .serializers import (
-    TaskMainPageSerializer,
+    TaskCreateSerializer,
     CommentSerializer,
-    RatingSerializer
+    RatingSerializer,
+    TaskMainPageSerializer
     )
 
 from tasker.models import Task, Comment, Rating
@@ -21,16 +23,25 @@ class TaskView(APIView):
     """Добавление Задач"""
 
     queryset = Task.objects.all()
-    serializer_class = TaskMainPageSerializer
+    serializer_class = TaskCreateSerializer
+
+    def get(self, request, format=None):
+        tasks = Task.objects.all()
+        serializer = TaskCreateSerializer(tasks, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TaskCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TaskerMainPage(APIView):
+    """Короткие данные для задачи на главной странице"""
 
     def get(self, request, format=None):
         tasks = Task.objects.all()
         serializer = TaskMainPageSerializer(tasks, many=True)
         return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = TaskMainPageSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
