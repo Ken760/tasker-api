@@ -6,7 +6,8 @@ from .serializers import (
     TaskCreateSerializer,
     CommentSerializer,
     RatingSerializer,
-    TaskMainPageSerializer
+    TaskMainPageSerializer,
+    MyCursorPagination
     )
 
 from tasker.models import Task, Comment, Rating
@@ -45,3 +46,13 @@ class TaskerMainPage(APIView):
         tasks = Task.objects.all()
         serializer = TaskMainPageSerializer(tasks, many=True)
         return Response(serializer.data)
+
+
+class ApiPostListView(ListAPIView):
+    """Пагинация для главной страницы"""
+
+    queryset = Task.objects.get_queryset().order_by('id')
+    serializer_class = TaskMainPageSerializer
+    pagination_class = MyCursorPagination
+    ordering = '-createdDate'
+    paginate_by = 15

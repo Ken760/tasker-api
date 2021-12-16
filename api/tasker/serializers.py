@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from tasker.models import Task, Comment, Rating
-from rest_framework.pagination import PageNumberPagination, CursorPagination
+from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
 from rest_framework.relations import PrimaryKeyRelatedField
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 
@@ -52,3 +52,11 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate']
 
 
+
+class MyCursorPagination(LimitOffsetPagination):
+    """Курсорная пагинация"""
+
+    default_limit = 2
+    limit_query_param = 'l'
+    offset_query_param = 'o'
+    max_limit = 50
