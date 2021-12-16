@@ -57,6 +57,6 @@ class MyCursorPagination(LimitOffsetPagination):
     """Курсорная пагинация"""
 
     default_limit = 2
-    limit_query_param = 'l'
-    offset_query_param = 'o'
+    # limit_query_param = 'l'
+    # offset_query_param = 'o'
     max_limit = 50
