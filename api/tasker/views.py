@@ -6,7 +6,8 @@ from .serializers import (
     TaskCreateSerializer,
     CommentSerializer,
     RatingSerializer,
-    TaskMainPageSerializer
+    TaskMainPageSerializer,
+    MyCursorPagination,
     )
 
 from tasker.models import Task, Comment, Rating
@@ -39,9 +40,20 @@ class TaskView(APIView):
 
 
 class TaskerMainPage(APIView):
-    """Короткие данные для задачи на главной странице"""
+    """Задачи на главной странице"""
 
     def get(self, request, format=None):
         tasks = Task.objects.all()
         serializer = TaskMainPageSerializer(tasks, many=True)
         return Response(serializer.data)
+
+
+class TaskPaginationView(ListAPIView):
+    """Пагинация для задач"""
+
+    queryset = Task.objects.get_queryset().order_by('id')
+    serializer_class = TaskMainPageSerializer
+    pagination_class = MyCursorPagination
+    # ordering = 'id'
+    # OrderingFilter = 'id'
+    paginate_by = 5
