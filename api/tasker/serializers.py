@@ -55,7 +55,7 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
 
 
 class MyCursorPagination(LimitOffsetPagination):
-    """Курсорная пагинация"""
+    """пагинация"""
     default_limit = 3
     page_size = 10
     # page_query_param = 'page'
