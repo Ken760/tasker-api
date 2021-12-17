@@ -48,12 +48,13 @@ class TaskerMainPage(APIView):
         return Response(serializer.data)
 
 
+
 class TaskPaginationView(ListAPIView):
     """Пагинация для задач"""
-
     queryset = Task.objects.get_queryset().order_by('id')
     serializer_class = TaskMainPageSerializer
     pagination_class = MyCursorPagination
     # ordering = 'id'
     # OrderingFilter = 'id'
     paginate_by = 5
+
