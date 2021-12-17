@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.generics import ListAPIView, GenericAPIView
 from rest_framework.status import HTTP_200_OK
+from rest_framework import mixins, generics
 from rest_framework.views import APIView
 from .serializers import (
     TaskCreateSerializer,
@@ -37,6 +38,26 @@ class TaskView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PostDetail(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+    """Изменение и удаление постов"""
+
+    queryset = Task.objects.all()
+    serializer_class = TaskCreateSerializer
+    lookup_field = 'uuid'
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class TaskerMainPage(APIView):
