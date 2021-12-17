@@ -62,13 +62,3 @@ class MyCursorPagination(LimitOffsetPagination):
     # page_size_query_param = 'per_page'
     max_page_size = 1000
     ordering = 'id'
-
-
-
-class MyCursorPagination(LimitOffsetPagination):
-    """Курсорная пагинация"""
-
-    default_limit = 2
-    # limit_query_param = 'l'
-    # offset_query_param = 'o'
-    max_limit = 50
