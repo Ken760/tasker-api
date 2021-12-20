@@ -1,4 +1,3 @@
-import instance as instance
 from django.db.models import F, Sum
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
