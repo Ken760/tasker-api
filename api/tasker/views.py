@@ -1,5 +1,6 @@
 import instance as instance
 from django.db.models import F, Sum
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
 from rest_framework.generics import ListAPIView, GenericAPIView
 from rest_framework.status import HTTP_200_OK
@@ -7,7 +8,6 @@ from rest_framework import mixins, generics
 from rest_framework.views import APIView
 from .serializers import (
     TaskCreateSerializer,
-
     CommentSerializer,
     RatingSerializer,
     TaskMainPageSerializer,
@@ -17,6 +17,7 @@ from .serializers import (
 from tasker.models import Task, Comment, Rating
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
+from rest_framework import filters
 
 
 class ReadOnly(BasePermission):
@@ -51,7 +52,14 @@ class PostDetail(mixins.RetrieveModelMixin,
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
+    filter_backends = [DjangoFilterBackend]
     lookup_field = 'id'
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        Task.objects.filter(pk=instance.id).update(followings=F('followings') + 1)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -63,20 +71,15 @@ class PostDetail(mixins.RetrieveModelMixin,
         return self.destroy(request, *args, **kwargs)
 
 
-class TaskerMainPage(APIView):
-    """Задачи на главной странице"""
-
-    def get(self, request, format=None):
-        tasks = Task.objects.all().update(followings=F('followings') + 1)
-        serializer = TaskMainPageSerializer(tasks, many=True)
-        return Response(serializer.data)
-
-
-class TaskPaginationView(ListAPIView):
+class TaskPaginationView(generics.ListAPIView):
     """Пагинация для задач"""
     queryset = Task.objects.get_queryset().order_by('-createdDate')
     serializer_class = TaskMainPageSerializer
     pagination_class = MyCursorPagination
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ('language', 'category', 'createdDate')
+    search_fields = ['language', 'difficult', 'category']
+    ordering_fields = '__all__'
     # ordering = 'id'
     # OrderingFilter = 'id'
     # paginate_by = 5
@@ -86,19 +89,11 @@ class PostUuid(mixins.RetrieveModelMixin,
                     mixins.UpdateModelMixin,
                     mixins.DestroyModelMixin,
                     generics.GenericAPIView):
-    """Изменение и удаление ссылок"""
+    """Чтение полной записи"""
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
     lookup_field = 'uuid'
-
-    def retrieve(self, request, *args, **kwargs):
-        """Чтение полной записи"""
-
-        instance = self.get_object()
-        Task.objects.filter(pk=instance.id).update(followings=F('followings') + 1)
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)

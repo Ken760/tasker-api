@@ -1,7 +1,7 @@
 from django.urls import include, path
 from api.tasker.views import (
     TaskView,
-    TaskerMainPage,
+    # TaskerMainPage,
     TaskPaginationView,
     PostDetail,
     PostUuid,
