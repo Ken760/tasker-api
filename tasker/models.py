@@ -46,6 +46,7 @@ class Task(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY, null=True)
     difficult = models.CharField(max_length=50, choices=DIFFICULT, null=True)
     language = models.CharField(max_length=50, choices=LANGUAGE, null=True)
+    followings = models.PositiveIntegerField(default=0, verbose_name="Переходы")
     # rating = models.ForeignKey()
     # comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE)
 
@@ -64,8 +65,8 @@ class Task(models.Model):
 
 class Comment(models.Model):
     """Отзывы"""
-    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments', blank=True, null=True)
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     text = models.TextField("Сообщение", max_length=1000)
 
     def __str__(self):
@@ -78,9 +79,9 @@ class Comment(models.Model):
 
 class Rating(models.Model):
     """Рейтинги"""
-    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='ratings')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='ratings', blank=True, null=True)
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], blank=True, null=True)
 
     def __str__(self):
         return f"{self.value}"

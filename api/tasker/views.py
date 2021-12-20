@@ -48,7 +48,7 @@ class PostDetail(mixins.RetrieveModelMixin,
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
-    lookup_field = 'uuid'
+    lookup_field = 'id'
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
@@ -71,10 +71,24 @@ class TaskerMainPage(APIView):
 
 class TaskPaginationView(ListAPIView):
     """Пагинация для задач"""
-    queryset = Task.objects.get_queryset().order_by('id')
+    queryset = Task.objects.get_queryset().order_by('-createdDate')
     serializer_class = TaskMainPageSerializer
     pagination_class = MyCursorPagination
     # ordering = 'id'
     # OrderingFilter = 'id'
-    paginate_by = 5
+    # paginate_by = 5
+
+
+class PostUuid(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+    """Чтение полной записи"""
+
+    queryset = Task.objects.all()
+    serializer_class = TaskCreateSerializer
+    lookup_field = 'uuid'
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
