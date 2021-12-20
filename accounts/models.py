@@ -8,6 +8,7 @@ ROLES = (
     ('Editor', 'Editor'),
 )
 
+
 class UserAccountManager(BaseUserManager):
     def create_user(self, email, login, password=None, **extra_fields):
         if not login:
