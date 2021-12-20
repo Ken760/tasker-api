@@ -7,6 +7,7 @@ from rest_framework.relations import PrimaryKeyRelatedField
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 from collections import OrderedDict
 
+
 class CommentSerializer(serializers.ModelSerializer):
     """Сериализатор коментариев"""
 
