@@ -1,3 +1,5 @@
+import instance as instance
+from django.db.models import F, Sum
 from rest_framework import viewsets, status
 from rest_framework.generics import ListAPIView, GenericAPIView
 from rest_framework.status import HTTP_200_OK
@@ -5,6 +7,7 @@ from rest_framework import mixins, generics
 from rest_framework.views import APIView
 from .serializers import (
     TaskCreateSerializer,
+
     CommentSerializer,
     RatingSerializer,
     TaskMainPageSerializer,
@@ -64,7 +67,7 @@ class TaskerMainPage(APIView):
     """Задачи на главной странице"""
 
     def get(self, request, format=None):
-        tasks = Task.objects.all()
+        tasks = Task.objects.all().update(followings=F('followings') + 1)
         serializer = TaskMainPageSerializer(tasks, many=True)
         return Response(serializer.data)
 
@@ -83,12 +86,19 @@ class PostUuid(mixins.RetrieveModelMixin,
                     mixins.UpdateModelMixin,
                     mixins.DestroyModelMixin,
                     generics.GenericAPIView):
-    """Чтение полной записи"""
+    """Изменение и удаление ссылок"""
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
     lookup_field = 'uuid'
 
+    def retrieve(self, request, *args, **kwargs):
+        """Чтение полной записи"""
+
+        instance = self.get_object()
+        Task.objects.filter(pk=instance.id).update(followings=F('followings') + 1)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
-
