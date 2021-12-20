@@ -5,17 +5,17 @@ from django.db import models
 from django.conf import settings
 
 THEME = (
-    ("White", "White"),
-    ("Red", "Red"),
-    ("Green", "Green"),
-    ("Blue", "Blue"),
-    ("Yellow", "Yellow"),
+    ("white", "white"),
+    ("red", "red"),
+    ("green", "green"),
+    ("blue", "blue"),
+    ("yellow", "yellow"),
 )
 CATEGORY = (
-    ("Aлгоритмы", "Aлгоритмы"),
-    ("Структуры данных", "Структуры данных"),
-    ("Архитектура", "Архитектура"),
-    ("Изучение основ языка", "Изучение основ языка", )
+    ("algorithms", "algorithms"),
+    ("data_structures", "data_structures"),
+    ("architecture", "architecture"),
+    ("basics", "basics", )
 )
 DIFFICULT = (
     ("easy", "easy"),
@@ -47,6 +47,7 @@ class Task(models.Model):
     difficult = models.CharField(max_length=50, choices=DIFFICULT, null=True)
     language = models.CharField(max_length=50, choices=LANGUAGE, null=True)
     followings = models.PositiveIntegerField(default=0, verbose_name="Переходы")
+    original_source = models.CharField(max_length=50, null=True, blank=True, name='originalSource')
     # rating = models.ForeignKey()
     # comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE)
 
