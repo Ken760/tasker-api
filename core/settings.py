@@ -144,7 +144,7 @@ STATIC_ROOT = 'static'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
-    "http://80.78.245.207:3000/",
+    # "http://80.78.245.207:3000/",
     "http://localhost:3000",
 ]
 

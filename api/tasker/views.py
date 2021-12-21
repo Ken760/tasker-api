@@ -51,7 +51,6 @@ class PostDetail(mixins.RetrieveModelMixin,
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
-    filter_backends = [DjangoFilterBackend]
     lookup_field = 'id'
 
     def get(self, request, *args, **kwargs):
