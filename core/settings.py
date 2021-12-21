@@ -25,8 +25,8 @@ SECRET_KEY = 'django-insecure-669a($^+!_gop+=6y25t#*b@r**&j&-%7vm3fj7*s7#!^v1+hm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['80.78.245.207', '2a00:f940:2:4:2::2291', '80-78-245-207.cloudvps.regruhosting.ru']
-# ALLOWED_HOSTS = ['*']
+# ALLOWED_HOSTS = ['80.78.245.207', '2a00:f940:2:4:2::2291', '80-78-245-207.cloudvps.regruhosting.ru']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -56,9 +56,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -142,6 +142,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = 'static'
 
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://80.78.245.207:3000/",
     "http://localhost:3000",
