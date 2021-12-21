@@ -118,3 +118,4 @@ dmypy.json
 */__pycache__/
 #accounts/migrations
 #tasker/migrations
+static
