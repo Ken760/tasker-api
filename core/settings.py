@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-669a($^+!_gop+=6y25t#*b@r**&j&-%7vm3fj7*s7#!^v1+hm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['80.78.245.207', '2a00:f940:2:4:2::2291', '80-78-245-207.cloudvps.regruhosting.ru']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
