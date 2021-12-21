@@ -66,7 +66,7 @@ class PostDetail(mixins.RetrieveModelMixin,
 
 class TaskPaginationView(generics.ListAPIView):
     """Пагинация для задач"""
-    queryset = Task.objects.get_queryset().order_by('-createdDate')
+    queryset = Task.objects.get_queryset().order_by('-followings')
     serializer_class = TaskMainPageSerializer
     pagination_class = MyCursorPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
