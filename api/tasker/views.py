@@ -54,12 +54,6 @@ class PostDetail(mixins.RetrieveModelMixin,
     filter_backends = [DjangoFilterBackend]
     lookup_field = 'id'
 
-    def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-        Task.objects.filter(pk=instance.id).update(followings=F('followings') + 1)
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data)
-
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
@@ -93,6 +87,12 @@ class PostUuid(mixins.RetrieveModelMixin,
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
     lookup_field = 'uuid'
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        Task.objects.filter(pk=instance.id).update(followings=F('followings') + 1)
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
