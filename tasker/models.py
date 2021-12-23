@@ -23,9 +23,9 @@ DIFFICULT = (
     ("hard", "hard"),
 )
 LANGUAGE = (
-    ("CPlusPlus", "CPlusPlus"),
+    ("CPlusPlus", "C++"),
     ("C", "C"),
-    ("CSharp", "CSharp"),
+    ("CSharp", "C#"),
     ("JavaScript", "JavaScript"),
     ("Python", "Python"),
     ("Java", "Java"),
