@@ -13,7 +13,7 @@ urlpatterns = [
     # path('task/post/', TaskerMainPage.as_view()),
     path('task/post/', TaskPaginationView.as_view()),
     # path('task/post/<int:id>/', PostDetail.as_view()),
-    path('task/post/<slug:uuid>/', PostUuid.as_view()),
+    path('task/post/<str:uuid>/', PostUuid.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
