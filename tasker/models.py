@@ -13,7 +13,7 @@ THEME = (
 )
 CATEGORY = (
     ("algorithms", "algorithms"),
-    ("data_structures", "data_structures"),
+    ("dataStructure", "dataStructure"),
     ("architecture", "architecture"),
     ("basics", "basics", )
 )
