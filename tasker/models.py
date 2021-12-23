@@ -38,7 +38,7 @@ class Task(models.Model):
     title = models.CharField(max_length=40)
     text = models.TextField(max_length=500, blank=True, null=True)
     solution_text = models.TextField(max_length=500, blank=True, null=True, name='solutionText')
-    uuid = models.CharField(max_length=160, unique=True, blank=True)
+    uuid = models.SlugField(max_length=160, unique=True, blank=True)
     confirmed = models.BooleanField(default=False, name='isConfirmed')
     created_date = models.DateTimeField(auto_now_add=True, name='createdDate')
     updated_date = models.DateTimeField(auto_now=True, name='updatedDate')
