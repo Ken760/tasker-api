@@ -35,7 +35,7 @@ class Task(models.Model):
     """Задачи"""
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=40)
-    text = models.TextField(max_length=500, blank=True, null=True)
+    text = models.TextField(max_length=500)
     solution_text = models.TextField(max_length=500, blank=True, null=True, name='solutionText')
     uuid = models.SlugField(max_length=160, unique=True, blank=True)
     confirmed = models.BooleanField(default=False, name='isConfirmed')
@@ -47,7 +47,7 @@ class Task(models.Model):
     language = models.CharField(max_length=50, choices=LANGUAGE, null=True)
     followings = models.PositiveIntegerField(default=0, verbose_name="Переходы")
     original_source = models.CharField(max_length=50, null=True, blank=True, name='originalSource')
-    source_code = models.TextField(max_length=1000, blank=True, null=True,  name='sourceCode')
+    code = models.TextField(max_length=10000, blank=True, null=True)
     # rating = models.ForeignKey()
     # comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE)
 
