@@ -46,7 +46,7 @@ class Task(models.Model):
     difficult = models.CharField(max_length=50, choices=DIFFICULT, null=True)
     language = models.CharField(max_length=50, choices=LANGUAGE, null=True)
     followings = models.PositiveIntegerField(default=0, verbose_name="Переходы")
-    original_source = models.CharField(max_length=50, null=True, blank=True, name='originalSource')
+    original_source = models.CharField(max_length=500, null=True, blank=True, name='originalSource')
     code = models.TextField(max_length=10000, blank=True, null=True)
     # rating = models.ForeignKey()
     # comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE)
