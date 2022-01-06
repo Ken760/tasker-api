@@ -48,7 +48,7 @@ class CustomCharField(serializers.CharField):
 class TaskMainPageSerializer(serializers.ModelSerializer):
     """Сериализатор задач для главной страницы"""
     createdDate = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
-    text = CustomCharField(repr_length=100)
+    text = CustomCharField(repr_length=200)
 
     class Meta:
         model = Task
