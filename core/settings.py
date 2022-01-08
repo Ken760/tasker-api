@@ -147,6 +147,11 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
 ]
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '531047901296-md6f4lnvn2run43rbl7lrnjqc4572d5b.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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pip install social-auth-app-django'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
