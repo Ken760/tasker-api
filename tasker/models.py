@@ -48,8 +48,7 @@ class Task(models.Model):
     followings = models.PositiveIntegerField(default=0, verbose_name="Переходы")
     original_source = models.CharField(max_length=500, null=True, blank=True, name='originalSource')
     code = models.TextField(max_length=10000, blank=True, null=True)
-    # rating = models.ForeignKey()
-    # comments = models.ForeignKey('Comment', blank=True, null=True, on_delete=models.CASCADE)
+    rating = models.DecimalField(default=0, verbose_name="Рейтинг", max_digits=10, decimal_places=1)
 
     def save(self, **kwargs):
         if not self.id:
