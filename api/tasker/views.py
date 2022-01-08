@@ -1,4 +1,4 @@
-from django.db.models import F, Sum
+from django.db.models import F, Sum, Avg
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
 from rest_framework.generics import ListAPIView, GenericAPIView
@@ -91,4 +91,9 @@ class PostUuid(mixins.RetrieveModelMixin,
         return Response(serializer.data)
 
     def get(self, request, *args, **kwargs):
+        tasks = Task.objects.all()
+        for task in tasks:
+            task.rating = task.ratings.aggregate(Avg('value'))['value__avg']
+            task.save(update_fields=['rating',])
         return self.retrieve(request, *args, **kwargs)
+
