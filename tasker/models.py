@@ -34,8 +34,8 @@ LANGUAGE = (
 class Task(models.Model):
     """Задачи"""
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100)
-    text = models.TextField(max_length=10000)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    text = models.TextField(max_length=10000, blank=True, null=True)
     solution_text = models.TextField(max_length=500, blank=True, null=True, name='solutionText')
     uuid = models.SlugField(max_length=160, unique=True, blank=True)
     confirmed = models.BooleanField(default=False, name='isConfirmed')
@@ -48,7 +48,7 @@ class Task(models.Model):
     followings = models.PositiveIntegerField(default=0, verbose_name="Переходы")
     original_source = models.CharField(max_length=500, null=True, blank=True, name='originalSource')
     code = models.TextField(max_length=10000, blank=True, null=True)
-    rating = models.DecimalField(default=0, verbose_name="Рейтинг", max_digits=5, decimal_places=1, blank=True, null=True)
+    rating = models.DecimalField(default=0, verbose_name="Рейтинг", max_digits=5, decimal_places=1)
 
     def save(self, **kwargs):
         if not self.id:
@@ -81,7 +81,7 @@ class Rating(models.Model):
     """Рейтинги"""
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='ratings', blank=True, null=True)
     # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], blank=True, null=True)
+    value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
     def __str__(self):
         return f"{self.value}"
