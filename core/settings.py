@@ -46,14 +46,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
+    'rest_auth',
     'corsheaders',
     'accounts',
     'tasker',
     'django_filters',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
 ]
+SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -141,20 +150,29 @@ USE_TZ = False
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
 ]
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '531047901296-md6f4lnvn2run43rbl7lrnjqc4572d5b.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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pip install social-auth-app-django'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
-
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+            'client_id': '531047901296-md6f4lnvn2run43rbl7lrnjqc4572d5b.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    }
+}
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 
-AUTH_USER_MODEL = 'accounts.UserAccount'
