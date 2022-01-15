@@ -160,19 +160,27 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#             'client_id': '531047901296-md6f4lnvn2run43rbl7lrnjqc4572d5b.apps.googleusercontent.com',
+#             'secret': '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',
+#             'key': ''
+#         }
+#     }
+# }
 SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-            'client_id': '531047901296-md6f4lnvn2run43rbl7lrnjqc4572d5b.apps.googleusercontent.com',
-            'secret': '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',
-            'key': ''
-        }
-    }
+    "google": {
+        "APP": {
+            "client_id": "531047901296-md6f4lnvn2run43rbl7lrnjqc4572d5b.apps.googleusercontent.com",
+            "secret": "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",
+        },
+    },
 }
 
 # Default primary key field type
