@@ -155,6 +155,9 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
 ]
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
 SOCIALACCOUNT_PROVIDERS = {

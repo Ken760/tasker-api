@@ -27,8 +27,8 @@ class RatingSerializer(serializers.ModelSerializer):
 class TaskCreateSerializer(serializers.ModelSerializer):
     """Сериализатор задач"""
     comments = CommentSerializer(many=True, read_only=True)
-    ratings = RatingSerializer(many=True, read_only=True)
     createdDate = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
+    rating = serializers.FloatField(read_only=True)
 
     class Meta:
         model = Task
