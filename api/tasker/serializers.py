@@ -53,7 +53,7 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate', 'updatedDate', 'uuid', 'followings']
+        fields = ['id', 'user', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate', 'updatedDate', 'uuid', 'followings']
 
 
 class MyCursorPagination(LimitOffsetPagination):
