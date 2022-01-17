@@ -33,7 +33,7 @@ LANGUAGE = (
 
 class Task(models.Model):
     """Задачи"""
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=10000)
     solution_text = models.TextField(max_length=500, blank=True, null=True, name='solutionText')
