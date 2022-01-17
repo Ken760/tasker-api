@@ -49,11 +49,10 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
     """Сериализатор задач для главной страницы"""
     createdDate = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
     text = CustomCharField(repr_length=200)
-    user = PrimaryKeyRelatedField(read_only=True, source='user.email')
 
     class Meta:
         model = Task
-        fields = ['id', 'user', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate', 'updatedDate', 'uuid', 'followings']
+        fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate', 'updatedDate', 'uuid', 'followings']
 
 
 class MyCursorPagination(LimitOffsetPagination):
