@@ -152,10 +152,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
+    'http://localhost:3000',
+    'http//:localhost:8000',
 ]
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
+    'http://80.78.245.207',
 ]
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
