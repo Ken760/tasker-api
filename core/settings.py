@@ -189,7 +189,7 @@ DJOSER = {
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['https://it-tasker.com/google',],
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': 'https://it-tasker.com',
     'SERIALIZERS': {
         'user_create': 'api.accounts.serializers.UserCreateSerializer',
         'user': 'api.accounts.serializers.UserCreateSerializer',
