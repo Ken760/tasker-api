@@ -14,6 +14,9 @@ urlpatterns = [
     path('task/post/', TaskPaginationView.as_view()),
     path('task/<int:id>/', PostDetail.as_view()),
     path('task/uuid/<slug:uuid>/', PostUuid.as_view()),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
+    path('auth/', include('djoser.social.urls')),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
