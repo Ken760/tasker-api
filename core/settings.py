@@ -153,10 +153,11 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
     'http//:localhost:8000',
+    'https://it-tasker.com',
 ]
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-    'http://80.78.245.207',
+    'https://it-tasker.com',
 ]
 
 
