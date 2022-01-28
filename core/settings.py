@@ -162,6 +162,7 @@ CORS_ALLOWED_ORIGINS = [
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
     'django.contrib.auth.backends.ModelBackend'
 )
 
@@ -200,6 +201,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '186704423988-dje2besef3aipheaocspslov286n0826.a
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
 SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
+
+SOCIAL_AUTH_GITHUB_KEY = '2e960b193a0c82d3b103'
+SOCIAL_AUTH_GITHUB_SECRET = '5540c6ec56416b9baf2e04986702739136459054'
+
 
 AUTH_USER_MODEL = 'accounts.UserAccount'
 # Default primary key field type
