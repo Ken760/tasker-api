@@ -188,7 +188,7 @@ DJOSER = {
     'ACTIVATION_URL': 'activate/{uid}/{token}',
     'SEND_ACTIVATION_EMAIL': True,
     'SOCIAL_AUTH_TOKEN_STRATEGY': 'djoser.social.token.jwt.TokenStrategy',
-    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['https://it-tasker.com'],
+    'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['https://it-tasker.com/auth'],
     'SERIALIZERS': {
         'user_create': 'api.accounts.serializers.UserCreateSerializer',
         'user': 'api.accounts.serializers.UserCreateSerializer',
@@ -209,5 +209,3 @@ SOCIAL_AUTH_GITHUB_SECRET = '5540c6ec56416b9baf2e04986702739136459054'
 AUTH_USER_MODEL = 'accounts.UserAccount'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
-
-
