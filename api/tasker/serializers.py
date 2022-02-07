@@ -30,6 +30,7 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     createdDate = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
     rating = serializers.FloatField(read_only=True)
     userInfo = UserCreateSerializer(read_only=True)
+    #userInfo = serializers.PrimaryKeyRelatedField(read_only=True, default=UserCreateSerializer())
 
     class Meta:
         model = Task

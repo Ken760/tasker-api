@@ -53,11 +53,17 @@ class PostDetail(mixins.RetrieveModelMixin,
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
     lookup_field = 'id'
+    permission_classes = [IsAuthenticated | ReadOnly]
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
 
     def put(self, request, *args, **kwargs):
+        serializer = TaskCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(userInfo=self.request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        # return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         return self.update(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
