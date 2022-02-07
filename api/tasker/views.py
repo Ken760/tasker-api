@@ -29,6 +29,7 @@ class TaskView(APIView):
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
+    permission_classes = [IsAuthenticated | ReadOnly]
 
     def get(self, request, format=None):
         tasks = Task.objects.all()
