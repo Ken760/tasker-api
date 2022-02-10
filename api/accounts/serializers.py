@@ -4,7 +4,6 @@ from drf_writable_nested import WritableNestedModelSerializer
 from accounts.models import UserAccount
 from tasker.models import *
 from api.tasker.serializers import TaskCreateSerializer
-
 User = get_user_model()
 
 
