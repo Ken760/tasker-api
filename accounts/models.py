@@ -31,6 +31,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=255)
     activity = models.CharField(max_length=100, blank=True, null=True)
     nickname = models.CharField(max_length=50, blank=True, null=True)
+    task = models.ForeignKey('tasker.Task', blank=True, null=True, on_delete=models.CASCADE, related_name='Задачи')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -49,15 +50,15 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-class Profile(models.Model):
-    """Модель профиль пользователя"""
-    user_info = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, name='userInfo')
-    task = models.ForeignKey('tasker.Task', blank=True, null=True, on_delete=models.CASCADE, related_name='Задачи')
-
-
-    def __str__(self):
-        return self.user.first_name
-
-    class Meta:
-        verbose_name = 'Профиль'
-        verbose_name_plural = 'Профиль'
+# class Profile(models.Model):
+#     """Модель профиль пользователя"""
+#     user_info = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, name='userInfo')
+#     task = models.ForeignKey('tasker.Task', blank=True, null=True, on_delete=models.CASCADE, related_name='Задачи')
+#
+#
+#     def __str__(self):
+#         return self.user.first_name
+#
+#     class Meta:
+#         verbose_name = 'Профиль'
+#         verbose_name_plural = 'Профиль'

@@ -11,7 +11,7 @@ User = get_user_model()
 class UserCreateSerializer(UserCreateSerializer):
     class Meta(UserCreateSerializer.Meta):
         model = User
-        fields = ('id', 'email', 'first_name', 'last_name', 'password', 'activity', 'nickname')
+        fields = ('id', 'email', 'first_name', 'last_name', 'password', 'activity', 'nickname', 'task')
 
 
 class UserProfileSerializer(WritableNestedModelSerializer):
@@ -19,5 +19,5 @@ class UserProfileSerializer(WritableNestedModelSerializer):
     userInfo = UserCreateSerializer(read_only=True)
 
     class Meta:
-        model = Profile
+        model = User
         fields = '__all__'
