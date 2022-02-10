@@ -13,7 +13,7 @@ class UserCreateSerializer(UserCreateSerializer):
         fields = ('id', 'email', 'first_name', 'last_name', 'password', 'activity', 'nickname')
 
 
-# class UserProfileSerializer(UserCreateSerializer):
-#     class Meta(UserCreateSerializer.Meta):
-#         model = User
-#         fields = ('id', 'first_name', 'last_name', 'activity', 'nickname')
+class UserProfileSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'activity', 'nickname')

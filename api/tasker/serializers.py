@@ -10,10 +10,10 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-# class UserProfileSerializer(UserCreateSerializer):
-#     class Meta(UserCreateSerializer.Meta):
-#         model = User
-#         fields = ('id', 'first_name', 'last_name', 'activity', 'nickname')
+class UserProfileSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'activity', 'nickname')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -37,7 +37,7 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     createdDate = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
     rating = serializers.FloatField(read_only=True)
-    # userInfo = UserProfileSerializer(read_only=True)
+    userInfo = UserProfileSerializer(read_only=True)
 
     class Meta:
         model = Task
