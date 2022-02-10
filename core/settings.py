@@ -194,10 +194,10 @@ DJOSER = {
     'SOCIAL_AUTH_ALLOWED_REDIRECT_URIS': ['https://it-tasker.com/auth'],
     'token_destroy': ['rest_framework.permissions.IsAuthenticated'],
     'SERIALIZERS': {
-        'user_create': 'api.accounts.serializers.UserCreateSerializer',
-        'user': 'api.accounts.serializers.UserCreateSerializer',
-        'current_user': 'api.accounts.serializers.UserCreateSerializer',
-        'user_delete': 'djoser.serializers.UserDeleteSerializer',
+        # 'user_create': 'api.accounts.serializers.UserCreateSerializer',
+        # 'user': 'api.accounts.serializers.UserCreateSerializer',
+        # 'current_user': 'api.accounts.serializers.UserCreateSerializer',
+        # 'user_delete': 'djoser.serializers.UserDeleteSerializer',
     }
 }
 
