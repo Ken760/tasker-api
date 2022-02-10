@@ -16,6 +16,7 @@ class UserCreateSerializer(UserCreateSerializer):
 
 class UserProfileSerializer(WritableNestedModelSerializer):
     task = TaskCreateSerializer(read_only=True)
+    userInfo = UserCreateSerializer(read_only=True)
 
     class Meta:
         model = Profile

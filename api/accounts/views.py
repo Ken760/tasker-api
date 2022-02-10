@@ -21,5 +21,5 @@ class UserProfileListCreateView(ListCreateAPIView):
 class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Profile.objects.all()
     serializer_class = UserProfileSerializer
-    lookup_field = 'userInfo_id'
+    lookup_field = 'id'
     permission_classes = [IsOwnerProfileOrReadOnly,]
