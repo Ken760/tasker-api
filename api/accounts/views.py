@@ -9,15 +9,6 @@ from .serializers import UserProfileSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
-# class UserProfileListCreateView(ListCreateAPIView):
-#     queryset = Profile.objects.all()
-#     serializer_class = UserProfileSerializer
-#     permission_classes = [IsAuthenticated]
-#
-#     def perform_create(self, serializer):
-#         user = self.request.user
-#         serializer.save(user=user)
-
 
 class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
