@@ -13,10 +13,8 @@ class UserCreateSerializer(UserCreateSerializer):
         model = User
         fields = ('id', 'email', 'first_name', 'last_name', 'password', 'activity', 'nickname')
 
-#
-# class UserProfileSerializer(WritableNestedModelSerializer):
-#     # task = TaskCreateSerializer(read_only=True)
-#     # userInfo = UserCreateSerializer(read_only=True)
-#     class Meta:
-#         model = User
-#         fields = '__all__'
+
+class UserProfileSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'activity', 'nickname')

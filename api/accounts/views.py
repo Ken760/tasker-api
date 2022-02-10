@@ -5,7 +5,7 @@ from rest_framework.generics import (
 from rest_framework.permissions import IsAuthenticated
 from accounts.models import UserAccount
 from .permissions import IsOwnerProfileOrReadOnly
-from .serializers import UserCreateSerializer
+from .serializers import UserProfileSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -21,6 +21,6 @@ User = get_user_model()
 
 class UserProfileDetailView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
-    serializer_class = UserCreateSerializer
+    serializer_class = UserProfileSerializer
     lookup_field = 'id'
     permission_classes = [IsOwnerProfileOrReadOnly,]
