@@ -6,7 +6,7 @@ from api.tasker.views import (
     PostDetail,
     PostUuid,
     )
-from api.accounts.views import UserProfileDetailView
+# from api.accounts.views import UserProfileDetailView
 from rest_framework.urlpatterns import format_suffix_patterns
 
 urlpatterns = [
@@ -15,7 +15,7 @@ urlpatterns = [
     path('task/post/', TaskPaginationView.as_view()),
     path('task/<int:id>/', PostDetail.as_view()),
     path('task/uuid/<slug:uuid>/', PostUuid.as_view()),
-    path("user/<id>/", UserProfileDetailView.as_view(), name="profile"),
+    # path("user/<id>/", UserProfileDetailView.as_view(), name="profile"),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
