@@ -6,7 +6,14 @@ from tasker.models import Task, Comment, Rating
 from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
 from rest_framework.relations import PrimaryKeyRelatedField
 from drf_writable_nested.serializers import WritableNestedModelSerializer
-from collections import OrderedDict
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+
+class UserProfileSerializer(UserCreateSerializer):
+    class Meta(UserCreateSerializer.Meta):
+        model = User
+        fields = ('id', 'first_name', 'last_name', 'activity', 'nickname')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -30,7 +37,7 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     createdDate = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
     rating = serializers.FloatField(read_only=True)
-    userInfo = UserCreateSerializer(read_only=True)
+    userInfo = UserProfileSerializer(read_only=True)
 
     class Meta:
         model = Task
