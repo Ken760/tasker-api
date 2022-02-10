@@ -5,8 +5,8 @@ from accounts.models import UserAccount
 User = get_user_model()
 
 
-class UserCreateSerializer(WritableNestedModelSerializer):
-    class Meta(UserCreateSerializer.Meta):
+class UserCreateSerializer(UserCreateSerializer):
+    class Meta():
         model = UserAccount
         fields = ('id', 'email', 'first_name', 'last_name', 'password', 'activity', 'nickname')
 
