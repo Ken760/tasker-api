@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.response import Response
-# from djoser.serializers import UserCreateSerializer
-from ..accounts.serializers import UserProfileSerializer
+from djoser.serializers import UserCreateSerializer
+# from ..accounts.serializers import UserProfileSerializer
 from tasker.models import Task, Comment, Rating
 from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
 from rest_framework.relations import PrimaryKeyRelatedField
@@ -30,7 +30,7 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     createdDate = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
     rating = serializers.FloatField(read_only=True)
-    userInfo = UserProfileSerializer(read_only=True)
+    userInfo = UserCreateSerializer(read_only=True)
 
     class Meta:
         model = Task
