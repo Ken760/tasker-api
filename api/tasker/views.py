@@ -52,6 +52,7 @@ class PostDetail(mixins.RetrieveModelMixin,
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
+    permission_classes = IsAuthenticated
     lookup_field = 'id'
 
     def get(self, request, *args, **kwargs):
