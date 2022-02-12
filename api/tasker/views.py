@@ -18,6 +18,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
 from rest_framework import filters
 
+from ..accounts.permissions import IsOwnerProfileOrReadOnly
+
 
 class ReadOnly(BasePermission):
     def has_permission(self, request, view):
@@ -52,7 +54,7 @@ class PostDetail(mixins.RetrieveModelMixin,
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
-    permission_classes = IsAuthenticated
+    permission_classes = (IsOwnerProfileOrReadOnly, )
     lookup_field = 'id'
 
     def get(self, request, *args, **kwargs):
