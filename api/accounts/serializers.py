@@ -18,4 +18,4 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
     class Meta():
         model = UserAccount
-        fields = ('id', 'email', 'password', 'activity', 'nickname', 'fullName')
+        fields = ('id', 'email', 'password', 'first_name', 'last_name',  'activity', 'nickname', 'fullName')
