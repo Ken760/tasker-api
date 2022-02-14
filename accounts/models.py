@@ -30,6 +30,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
+    full_name = models.CharField(max_length=255, blank=True, null=True)
     activity = models.CharField('Активность', max_length=100, blank=True, null=True)
     nickname = models.CharField('Прозвище', max_length=50, blank=True, null=True)
     # task = models.ForeignKey('tasker.Task', blank=True, null=True, on_delete=models.CASCADE, related_name='Задачи')
@@ -39,10 +40,10 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'nickname', 'activity']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'nickname', 'activity', 'full_name']
 
     def get_full_name(self):
-        return self.first_name
+        return f"{self.first_name} {self.last_name}"
 
     def get_short_name(self):
         return self.first_name

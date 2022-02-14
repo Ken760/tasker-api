@@ -196,7 +196,7 @@ DJOSER = {
     'SERIALIZERS': {
         'user_create': 'api.accounts.serializers.UserCreateSerializer',
         'user': 'api.accounts.serializers.UserCreateSerializer',
-        # 'current_user': 'api.accounts.serializers.UserCreateSerializer',
+        'current_user': 'api.accounts.serializers.UserCreateSerializer',
         'user_delete': 'djoser.serializers.UserDeleteSerializer',
     }
 }

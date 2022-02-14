@@ -1,7 +1,5 @@
 from rest_framework import serializers
-from rest_framework.response import Response
-from djoser.serializers import UserCreateSerializer
-# from ..accounts.serializers import UserProfileSerializer
+from api.accounts.serializers import FullNameField
 from tasker.models import Task, Comment, Rating
 from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
 from rest_framework.relations import PrimaryKeyRelatedField
@@ -10,10 +8,12 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-class UserProfileSerializer(UserCreateSerializer):
-    class Meta(UserCreateSerializer.Meta):
+class UserInfoSerializer(serializers.ModelSerializer):
+    fullName = FullNameField(source='*')
+
+    class Meta():
         model = User
-        fields = ('id', 'first_name', 'last_name', 'activity', 'nickname')
+        fields = ('id', 'activity', 'nickname', 'fullName')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -37,7 +37,7 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     createdDate = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
     rating = serializers.FloatField(read_only=True)
-    userInfo = UserProfileSerializer(read_only=True)
+    userInfo = UserInfoSerializer(read_only=True)
 
     class Meta:
         model = Task
