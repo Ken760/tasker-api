@@ -56,7 +56,7 @@ class CustomCharField(serializers.CharField):
 
 class TaskMainPageSerializer(serializers.ModelSerializer):
     """Сериализатор задач для главной страницы"""
-    createdDate = serializers.DateTimeField(format="%d.%m.%Y", read_only=True)
+    createdDate = serializers.DateTimeField(read_only=True)
     text = CustomCharField(repr_length=200)
 
     class Meta:
@@ -69,4 +69,3 @@ class MyCursorPagination(LimitOffsetPagination):
     default_limit = 15
     page_size = 100
     max_page_size = 1000
-
