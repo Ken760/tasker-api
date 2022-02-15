@@ -7,7 +7,7 @@ from rest_framework import mixins, generics
 from rest_framework.views import APIView
 from .serializers import (
     TaskCreateSerializer,
-    CommentSerializer,
+    CommentCreateSerializer,
     RatingSerializer,
     TaskMainPageSerializer,
     MyCursorPagination,
@@ -18,7 +18,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
 from rest_framework import filters
 
-from ..accounts.permissions import IsOwnerProfileOrReadOnly
+from ..accounts.permissions import IsOwnerProfileOrReadOnly, IsAuthorComment
 
 
 class ReadOnly(BasePermission):
@@ -104,3 +104,27 @@ class PostUuid(mixins.RetrieveModelMixin,
             task.save(update_fields=['rating',])
         return self.retrieve(request, *args, **kwargs)
 
+
+class CommentsView(generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+    """Добавление Комментариев"""
+
+    permission_classes = [IsAuthorComment]
+    querysert = Comment.objects.filter()
+    serializer_class = CommentCreateSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(userInfo=self.request.user)
+
+    def perform_destroy(self, instance):
+        instance.delete()
+        instance.save()
+
+
+class TaskUserView(generics.ListAPIView):
+    """Фильтрация постов пользователя"""
+
+    serializer_class = TaskCreateSerializer
+
+    def get_queryset(self):
+        return Task.objects.filter(
+            userInfo_id=self.kwargs.get('pk')).select_related('userInfo')

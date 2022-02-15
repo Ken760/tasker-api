@@ -16,16 +16,34 @@ class UserInfoSerializer(serializers.ModelSerializer):
         fields = ('id', 'activity', 'nickname', 'fullName')
 
 
-class CommentSerializer(serializers.ModelSerializer):
-    """Сериализатор коментариев"""
+class UserCommentSerializer(serializers.ModelSerializer):
+    fullName = FullNameField(source='*')
+
+    class Meta():
+        model = User
+        fields = ('id', 'fullName')
+
+
+class CommentCreateSerializer(serializers.ModelSerializer):
+    """Сериализация коментариев для создания"""
+    userInfo = UserCommentSerializer(read_only=True)
 
     class Meta:
         model = Comment
         fields = "__all__"
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    """Сериализация коментариев для задач"""
+    userInfo = UserCommentSerializer(read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ('id', 'userInfo', 'text', 'createdDate')
+
+
 class RatingSerializer(serializers.ModelSerializer):
-    """Сериализатор рейтинга"""
+    """Сериализация рейтинга"""
 
     class Meta:
         model = Rating
@@ -33,8 +51,8 @@ class RatingSerializer(serializers.ModelSerializer):
 
 
 class TaskCreateSerializer(serializers.ModelSerializer):
-    """Сериализатор задач"""
-    comments = CommentSerializer(many=True, read_only=True)
+    """Сериализация задач"""
+    comments = CommentSerializer(many=True)
     createdDate = serializers.DateTimeField(read_only=True)
     rating = serializers.FloatField(read_only=True)
     userInfo = UserInfoSerializer(read_only=True)
@@ -65,7 +83,7 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
 
 
 class MyCursorPagination(LimitOffsetPagination):
-    """пагинация"""
+    """Пагинация"""
     default_limit = 15
     page_size = 100
     max_page_size = 1000
