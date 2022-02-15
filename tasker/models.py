@@ -3,6 +3,7 @@ import uuid
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.conf import settings
+from mptt.fields import TreeForeignKey
 
 THEME = (
     ("white", "white"),
@@ -65,10 +66,11 @@ class Task(models.Model):
 
 class Comment(models.Model):
     """Отзывы"""
-    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments', blank=True, null=True)
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments', blank=True, null=True, name='taskId')
     user_info = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, name='userInfo')
     text = models.TextField("Сообщение", max_length=1000)
     created_date = models.DateTimeField(auto_now_add=True, name='createdDate')
+    updated_date = models.DateTimeField(auto_now=True, name='updatedDate')
 
     def __str__(self):
         return f"{self.text}"
