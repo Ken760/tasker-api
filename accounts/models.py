@@ -34,7 +34,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     activity = models.CharField('Активность', max_length=100, blank=True, null=True)
     nickname = models.CharField('Прозвище', max_length=50, blank=True, null=True)
     # favorite_ids = models.ManyToManyField('tasker.Task', blank=True, null=True, name='favoriteIds')
-    # joined_date = models.DateTimeField(auto_now_add=True, name='joinedDate')
+    joined_date = models.DateTimeField(auto_now_add=True, name='joinedDate')
     # task = models.ForeignKey('tasker.Task', blank=True, null=True, on_delete=models.CASCADE, related_name='Задачи')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
