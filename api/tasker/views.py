@@ -155,8 +155,6 @@ class CommentsTaskView(generics.ListAPIView):
     """Получение комментариев по id поста"""
 
     serializer_class = CommentSerializer
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    ordering_fields = '__all__'
 
     def get_queryset(self):
         return Comment.objects.filter(
