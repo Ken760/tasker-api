@@ -36,6 +36,7 @@ class CommentCreateSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     """Сериализация коментариев для задач"""
     userInfo = UserCommentSerializer(read_only=True)
+    createdDate = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Comment
