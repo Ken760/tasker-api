@@ -11,6 +11,7 @@ from .serializers import (
     RatingSerializer,
     TaskMainPageSerializer,
     MyCursorPagination,
+    CommentSerializer,
     )
 
 from tasker.models import Task, Comment, Rating
@@ -115,9 +116,29 @@ class CommentsView(generics.CreateAPIView, generics.UpdateAPIView, generics.Dest
     def perform_create(self, serializer):
         serializer.save(userInfo=self.request.user)
 
-    def perform_destroy(self, instance):
-        instance.delete()
-        instance.save()
+
+class CommentsChangeView(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+    """Изменение и удаление комментариев"""
+
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    permission_classes = (IsAuthorComment, )
+    lookup_field = 'id'
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class TaskUserView(generics.ListAPIView):
@@ -128,3 +149,15 @@ class TaskUserView(generics.ListAPIView):
     def get_queryset(self):
         return Task.objects.filter(
             userInfo_id=self.kwargs.get('pk')).select_related('userInfo')
+
+
+class CommentsTaskView(generics.ListAPIView):
+    """Получение комментариев по id поста"""
+
+    serializer_class = CommentSerializer
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    ordering_fields = '__all__'
+
+    def get_queryset(self):
+        return Comment.objects.filter(
+            taskId=self.kwargs.get('pk')).select_related('taskId').order_by('id')

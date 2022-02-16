@@ -5,7 +5,9 @@ from api.tasker.views import (
     PostDetail,
     PostUuid,
     CommentsView,
-    TaskUserView
+    TaskUserView,
+    CommentsTaskView,
+    CommentsChangeView
     )
 from api.accounts.views import UserProfileDetailView
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -18,8 +20,9 @@ urlpatterns = [
     path('task/uuid/<slug:uuid>/', PostUuid.as_view()),
     path('user/<id>/', UserProfileDetailView.as_view(), name="profile"),
     path('task/comments/', CommentsView.as_view()),
-    path('task/comments/<int:id>/', CommentsView.as_view()),
+    path('task/comment/<int:id>/', CommentsChangeView.as_view()),
     path('task/user/<int:pk>/', TaskUserView.as_view()),
+    path('task/comments/<int:pk>/', CommentsTaskView.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

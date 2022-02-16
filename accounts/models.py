@@ -52,17 +52,3 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-
-
-# class Profile(models.Model):
-#     """Модель профиль пользователя"""
-#     user_info = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, name='userInfo')
-#     task = models.ForeignKey('tasker.Task', blank=True, null=True, on_delete=models.CASCADE, related_name='Задачи')
-#
-#
-#     def __str__(self):
-#         return self.user.first_name
-#
-#     class Meta:
-#         verbose_name = 'Профиль'
-#         verbose_name_plural = 'Профиль'
