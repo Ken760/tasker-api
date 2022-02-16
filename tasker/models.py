@@ -56,6 +56,9 @@ class Task(models.Model):
             self.uuid = uuid.uuid4().hex[:8]
         super().save(**kwargs)
 
+    def get_count_comments(self):
+        return f"{self.comments.all().count()}"
+
     def __str__(self):
         return self.title
 
