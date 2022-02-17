@@ -158,4 +158,4 @@ class CommentsTaskView(generics.ListAPIView):
 
     def get_queryset(self):
         return Comment.objects.filter(
-            taskId=self.kwargs.get('pk')).select_related('taskId').order_by('id')
+            taskId=self.kwargs.get('pk')).select_related('taskId').order_by('-createdDate')
