@@ -99,7 +99,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tasker',
+        'NAME': 'test1',
         'USER': 'postgres',
         'PASSWORD': 'pajfurkqclhjdaizvczk',
         'HOST': '80.78.245.207',
@@ -204,7 +204,7 @@ DJOSER = {
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '186704423988-dje2besef3aipheaocspslov286n0826.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['https://www.googleapis.com/auth/userinfo.email', 'https://www.googleapis.com/auth/userinfo.profile', 'openid']
-SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name']
+SOCIAL_AUTH_GOOGLE_OAUTH2_EXTRA_DATA = ['first_name', 'last_name', 'fullname', 'picture', 'username']
 
 SOCIAL_AUTH_GITHUB_KEY = '2e960b193a0c82d3b103'
 SOCIAL_AUTH_GITHUB_SECRET = '5540c6ec56416b9baf2e04986702739136459054'
