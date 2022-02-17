@@ -68,7 +68,7 @@ class Task(models.Model):
 
 
 class Comment(models.Model):
-    """Отзывы"""
+    """Комментарии"""
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments', blank=True, null=True, name='taskId')
     user_info = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, name='userInfo')
     text = models.TextField("Сообщение", max_length=1000)
