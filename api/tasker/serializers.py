@@ -9,19 +9,17 @@ User = get_user_model()
 
 
 class UserInfoSerializer(serializers.ModelSerializer):
-    fullName = FullNameField(source='*')
 
     class Meta():
         model = User
-        fields = ('id', 'activity', 'nickname', 'fullName')
+        fields = ('id', 'activity', 'nickname', 'fullname')
 
 
 class UserCommentSerializer(serializers.ModelSerializer):
-    fullName = FullNameField(source='*')
 
     class Meta():
         model = User
-        fields = ('id', 'fullName')
+        fields = ('id', 'fullname')
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
