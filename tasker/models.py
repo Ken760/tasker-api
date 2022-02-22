@@ -49,7 +49,6 @@ class Task(models.Model):
     followings = models.PositiveIntegerField(default=0, verbose_name="Переходы")
     original_source = models.CharField(max_length=500, null=True, blank=True, name='originalSource')
     code = models.TextField(max_length=10000, blank=True, null=True)
-    rating = models.DecimalField(default=0, verbose_name="Рейтинг", max_digits=5, decimal_places=1, blank=True, null=True)
 
     def save(self, **kwargs):
         if not self.id:
@@ -58,6 +57,9 @@ class Task(models.Model):
 
     def get_count_comments(self):
         return f"{self.comments.all().count()}"
+
+    def get_count_likes(self):
+        return f"{self.likes.count()}"
 
     def __str__(self):
         return self.title
@@ -84,15 +86,22 @@ class Comment(models.Model):
         ordering = ['-createdDate']
 
 
-class Rating(models.Model):
-    """Рейтинги"""
-    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='ratings', blank=True, null=True)
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.value}"
+class Like(models.Model):
+    """Лайки"""
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, blank=True, null=True, related_name='likes', name='taskId')
+    user_info = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, name='userInfo')
+    # value = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)], blank=True, null=True)
 
     class Meta:
-        verbose_name = "Рейтинг"
-        verbose_name_plural = "Рейтинги"
+        verbose_name = "Лайк"
+        verbose_name_plural = "Лайки"
+
+
+class Favourite(models.Model):
+    """Избранное"""
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE, blank=True, null=True, related_name='favourites',name='taskId')
+    user_info = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, name='userInfo')
+
+    class Meta:
+        verbose_name = "Избранное"
+        verbose_name_plural = "Избранные"

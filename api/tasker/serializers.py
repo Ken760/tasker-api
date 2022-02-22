@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from api.accounts.serializers import FullNameField
-from tasker.models import Task, Comment, Rating
+from tasker.models import Task, Comment, Like, Favourite
 from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
 from rest_framework.relations import PrimaryKeyRelatedField
 from drf_writable_nested.serializers import WritableNestedModelSerializer
@@ -41,12 +40,30 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'userInfo', 'text', 'createdDate', 'updatedDate')
 
 
-class RatingSerializer(serializers.ModelSerializer):
-    """Сериализация рейтинга"""
+class LikeSerializer(serializers.ModelSerializer):
+    """Сериализация лайков"""
+    userInfo = UserCommentSerializer(read_only=True)
 
     class Meta:
-        model = Rating
+        model = Like
         fields = "__all__"
+
+
+class FavouriteAddSerializer(serializers.ModelSerializer):
+    """Сериализация добавление избранных задач"""
+    userInfo = UserCommentSerializer(read_only=True)
+
+    class Meta:
+        model = Favourite
+        fields = "__all__"
+
+
+class FavouriteReceivingSerializer(serializers.ModelSerializer):
+    """Сериализация получения избранных задач"""
+
+    class Meta:
+        model = Favourite
+        fields = ('id', 'taskId')
 
 
 class TaskCreateSerializer(serializers.ModelSerializer):
@@ -55,6 +72,8 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     createdDate = serializers.DateTimeField(read_only=True)
     rating = serializers.FloatField(read_only=True)
     userInfo = UserInfoSerializer(read_only=True)
+    likes = LikeSerializer(many=True, read_only=True)
+    likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
 
     class Meta:
         model = Task
@@ -76,10 +95,11 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
     createdDate = serializers.DateTimeField(read_only=True)
     text = CustomCharField(repr_length=200)
     commentsCount = serializers.IntegerField(source="get_count_comments", read_only=True)
+    likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
 
     class Meta:
         model = Task
-        fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate', 'updatedDate', 'uuid', 'followings', 'commentsCount']
+        fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate', 'updatedDate', 'uuid', 'followings', 'commentsCount', 'likeCount']
 
 
 class MyCursorPagination(LimitOffsetPagination):

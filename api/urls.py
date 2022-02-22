@@ -7,7 +7,12 @@ from api.tasker.views import (
     CommentsView,
     TaskUserView,
     CommentsTaskView,
-    CommentsChangeView
+    CommentsChangeView,
+    LikeViewSet,
+    FavouriteView,
+    FavouriteUserView,
+    FavouriteDeleteView,
+    LikeView
     )
 from api.accounts.views import UserProfileDetailView
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -23,6 +28,11 @@ urlpatterns = [
     path('task/comment/<int:id>/', CommentsChangeView.as_view()),
     path('task/user/<int:pk>/', TaskUserView.as_view()),
     path('task/comments/<int:pk>/', CommentsTaskView.as_view()),
+    path('task/like/', LikeView.as_view()),
+    path('task/like/<int:id>/', LikeViewSet.as_view()),
+    path('add/favorites/', FavouriteView.as_view()),
+    path('delete/favorites/<int:id>/', FavouriteDeleteView.as_view()),
+    path('user/favorites/<int:pk>/', FavouriteUserView.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
