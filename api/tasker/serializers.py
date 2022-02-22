@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from api.accounts.serializers import FullNameField
 from tasker.models import Task, Comment, Rating
 from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
 from rest_framework.relations import PrimaryKeyRelatedField
