@@ -32,7 +32,6 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=255)
     activity = models.CharField('Активность', max_length=100, blank=True, null=True)
     nickname = models.CharField('Прозвище', max_length=50, blank=True, null=True)
-    favorite_ids = models.ManyToManyField('tasker.Task', blank=True, null=True, name='favoriteIds')
     joined_date = models.DateTimeField(auto_now_add=True, name='joinedDate')
     picture = models.CharField(max_length=255)
     fullname = models.CharField(max_length=100)
@@ -44,7 +43,7 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'nickname', 'activity', 'fullname']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'nickname', 'activity']
 
     def get_full_name(self):
         return self.first_name

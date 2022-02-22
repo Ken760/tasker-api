@@ -5,16 +5,19 @@ from rest_framework.generics import ListAPIView, GenericAPIView
 from rest_framework.status import HTTP_200_OK
 from rest_framework import mixins, generics
 from rest_framework.views import APIView
+
 from .serializers import (
     TaskCreateSerializer,
     CommentCreateSerializer,
-    RatingSerializer,
+    LikeSerializer,
     TaskMainPageSerializer,
     MyCursorPagination,
     CommentSerializer,
+    FavouriteAddSerializer,
+    FavouriteReceivingSerializer
     )
 
-from tasker.models import Task, Comment, Rating
+from tasker.models import Task, Comment, Like, Favourite
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
 from rest_framework import filters
@@ -99,10 +102,6 @@ class PostUuid(mixins.RetrieveModelMixin,
         return Response(serializer.data)
 
     def get(self, request, *args, **kwargs):
-        tasks = Task.objects.all()
-        for task in tasks:
-            task.rating = task.ratings.aggregate(Avg('value'))['value__avg']
-            task.save(update_fields=['rating',])
         return self.retrieve(request, *args, **kwargs)
 
 
@@ -134,15 +133,12 @@ class CommentsChangeView(mixins.RetrieveModelMixin,
     def put(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
 
 
 class TaskUserView(generics.ListAPIView):
-    """Фильтрация постов пользователя"""
+    """Получение постов пользователя"""
 
     serializer_class = TaskCreateSerializer
 
@@ -159,3 +155,67 @@ class CommentsTaskView(generics.ListAPIView):
     def get_queryset(self):
         return Comment.objects.filter(
             taskId=self.kwargs.get('pk')).select_related('taskId').order_by('-createdDate')
+
+
+class LikeViewSet(generics.CreateAPIView, mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+
+    permission_classes = [IsOwnerProfileOrReadOnly]
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    lookup_field = 'id'
+
+
+class FavouriteView(generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin,):
+    """Добавление в избранное"""
+
+    permission_classes = [IsAuthorComment]
+    querysert = Favourite.objects.all()
+    serializer_class = FavouriteAddSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(userInfo=self.request.user)
+
+
+class FavouriteDeleteView(mixins.DestroyModelMixin, generics.GenericAPIView):
+    """Удаление из избранного"""
+
+    queryset = Favourite.objects.all()
+    serializer_class = FavouriteReceivingSerializer
+    permission_classes = [IsAuthorComment]
+    lookup_field = 'id'
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class FavouriteUserView(generics.ListAPIView):
+    """Получение избранных по id пользователя"""
+
+    serializer_class = FavouriteReceivingSerializer
+
+    def get_queryset(self):
+        return Favourite.objects.filter(
+            userInfo_id=self.kwargs.get('pk')).select_related('userInfo')
+
+
+class LikeView(APIView):
+    """Добавление лайков"""
+
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    permission_classes = [IsAuthorComment]
+
+    def get(self, request, format=None):
+        likes = Like.objects.all()
+        serializer = LikeSerializer(likes, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = LikeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(userInfo=self.request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
