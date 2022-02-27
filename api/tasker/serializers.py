@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from tasker.models import Task, Comment, Like, Favourite, Solution
+from tasker.models import Task, Comment, Like, Favourite
 from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
 from rest_framework.relations import PrimaryKeyRelatedField
 from drf_writable_nested.serializers import WritableNestedModelSerializer
