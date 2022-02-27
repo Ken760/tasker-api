@@ -21,13 +21,6 @@ class UserCommentSerializer(serializers.ModelSerializer):
         fields = ('id', 'fullname')
 
 
-class SolutionSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Solution
-        fields = ('text', 'code')
-
-
 class CommentCreateSerializer(serializers.ModelSerializer):
     """Сериализация коментариев для создания"""
     userInfo = UserCommentSerializer(read_only=True)
@@ -81,7 +74,6 @@ class TaskCreateSerializer(WritableNestedModelSerializer):
     userInfo = UserInfoSerializer(read_only=True)
     likes = LikeSerializer(many=True, read_only=True)
     likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
-    solution = SolutionSerializer(many=True)
 
     class Meta:
         model = Task

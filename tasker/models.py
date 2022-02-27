@@ -37,7 +37,8 @@ class Task(models.Model):
     user_info = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, name='userInfo')
     title = models.CharField(max_length=100)
     text = models.TextField(max_length=10000)
-    # solution_text = models.TextField(max_length=500, blank=True, null=True, name='solutionText')
+    solution_text = models.TextField(max_length=500, blank=True, null=True, name='solutionText')
+    solution_code = models.TextField(max_length=1000, blank=True, null=True, name='solutionCode')
     uuid = models.SlugField(max_length=160, unique=True, blank=True)
     confirmed = models.BooleanField(default=False, name='isConfirmed')
     created_date = models.DateTimeField(auto_now_add=True, name='createdDate')
@@ -48,7 +49,7 @@ class Task(models.Model):
     language = models.CharField(max_length=50, choices=LANGUAGE, null=True)
     followings = models.PositiveIntegerField(default=0, verbose_name="Переходы")
     original_source = models.CharField(max_length=500, null=True, blank=True, name='originalSource')
-    # code = models.TextField(max_length=10000, blank=True, null=True)
+    code = models.TextField(max_length=10000, blank=True, null=True)
 
     def save(self, **kwargs):
         if not self.id:
@@ -67,13 +68,6 @@ class Task(models.Model):
     class Meta:
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
-
-
-class Solution(models.Model):
-    """Решение"""
-    task = models.ForeignKey(Task, related_name='solution', on_delete=models.CASCADE)
-    text = models.TextField(max_length=500, blank=True, null=True)
-    code = models.TextField(max_length=10000, blank=True, null=True)
 
 
 class Comment(models.Model):
