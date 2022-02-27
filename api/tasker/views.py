@@ -50,28 +50,13 @@ class TaskView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PostDetail(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
+class PostDetail(generics.RetrieveUpdateDestroyAPIView):
     """Изменение и удаление постов"""
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
     permission_classes = (IsOwnerProfileOrReadOnly, )
     lookup_field = 'id'
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
 
 
 class TaskPaginationView(generics.ListAPIView):
@@ -116,25 +101,13 @@ class CommentsView(generics.CreateAPIView, generics.UpdateAPIView, generics.Dest
         serializer.save(userInfo=self.request.user)
 
 
-class CommentsChangeView(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
+class CommentsChangeView(generics.RetrieveUpdateDestroyAPIView):
     """Изменение и удаление комментариев"""
 
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = (IsAuthorComment, )
     lookup_field = 'id'
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
-
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
 
 
 class TaskUserView(generics.ListAPIView):
@@ -157,11 +130,8 @@ class CommentsTaskView(generics.ListAPIView):
             taskId=self.kwargs.get('pk')).select_related('taskId').order_by('-createdDate')
 
 
-class LikeViewSet(generics.CreateAPIView, mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
-
+class LikeViewSet(generics.RetrieveUpdateDestroyAPIView):
+    """Удаление лайков"""
     permission_classes = [IsOwnerProfileOrReadOnly]
     queryset = Like.objects.all()
     serializer_class = LikeSerializer

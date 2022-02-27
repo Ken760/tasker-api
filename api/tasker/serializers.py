@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from tasker.models import Task, Comment, Like, Favourite
+from tasker.models import Task, Comment, Like, Favourite, Solution
 from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
 from rest_framework.relations import PrimaryKeyRelatedField
 from drf_writable_nested.serializers import WritableNestedModelSerializer
@@ -9,16 +9,23 @@ User = get_user_model()
 
 class UserInfoSerializer(serializers.ModelSerializer):
 
-    class Meta():
+    class Meta:
         model = User
         fields = ('id', 'activity', 'nickname', 'fullname')
 
 
 class UserCommentSerializer(serializers.ModelSerializer):
 
-    class Meta():
+    class Meta:
         model = User
         fields = ('id', 'fullname')
+
+
+class SolutionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Solution
+        fields = ('text', 'code')
 
 
 class CommentCreateSerializer(serializers.ModelSerializer):
@@ -66,7 +73,7 @@ class FavouriteReceivingSerializer(serializers.ModelSerializer):
         fields = ('id', 'taskId')
 
 
-class TaskCreateSerializer(serializers.ModelSerializer):
+class TaskCreateSerializer(WritableNestedModelSerializer):
     """Сериализация задач"""
     comments = CommentSerializer(many=True, read_only=True)
     createdDate = serializers.DateTimeField(read_only=True)
@@ -74,6 +81,7 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     userInfo = UserInfoSerializer(read_only=True)
     likes = LikeSerializer(many=True, read_only=True)
     likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
+    solution = SolutionSerializer(many=True)
 
     class Meta:
         model = Task
