@@ -66,7 +66,7 @@ class FavouriteReceivingSerializer(serializers.ModelSerializer):
         fields = ('id', 'taskId')
 
 
-class TaskCreateSerializer(WritableNestedModelSerializer):
+class TaskCreateSerializer(serializers.ModelSerializer):
     """Сериализация задач"""
     comments = CommentSerializer(many=True, read_only=True)
     createdDate = serializers.DateTimeField(read_only=True)
