@@ -1,19 +1,5 @@
 from django.urls import include, path, re_path
-from api.tasker.views import (
-    TaskView,
-    TaskPaginationView,
-    PostDetail,
-    PostUuid,
-    CommentsView,
-    TaskUserView,
-    CommentsTaskView,
-    CommentsChangeView,
-    LikeViewSet,
-    FavouriteView,
-    FavouriteUserView,
-    FavouriteDeleteView,
-    LikeView
-    )
+from api.tasker.views import *
 from api.accounts.views import UserProfileDetailView
 from rest_framework.urlpatterns import format_suffix_patterns
 

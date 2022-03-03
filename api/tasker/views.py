@@ -30,24 +30,15 @@ class ReadOnly(BasePermission):
         return request.method in SAFE_METHODS
 
 
-class TaskView(APIView):
+class TaskView(generics.ListCreateAPIView):
     """Добавление Задач"""
 
     queryset = Task.objects.all()
     serializer_class = TaskCreateSerializer
     permission_classes = [IsAuthenticated | ReadOnly]
 
-    def get(self, request, format=None):
-        tasks = Task.objects.all()
-        serializer = TaskCreateSerializer(tasks, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = TaskCreateSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(userInfo=self.request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def perform_create(self, serializer):
+        serializer.save(userInfo=self.request.user)
 
 
 class PostDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -70,10 +61,7 @@ class TaskPaginationView(generics.ListAPIView):
     ordering_fields = '__all__'
 
 
-class PostUuid(mixins.RetrieveModelMixin,
-                    mixins.UpdateModelMixin,
-                    mixins.DestroyModelMixin,
-                    generics.GenericAPIView):
+class PostUuid(generics.ListAPIView):
     """Чтение полной записи"""
 
     queryset = Task.objects.all()
@@ -171,21 +159,12 @@ class FavouriteUserView(generics.ListAPIView):
             userInfo_id=self.kwargs.get('pk')).select_related('userInfo')
 
 
-class LikeView(APIView):
+class LikeView(generics.ListCreateAPIView):
     """Добавление лайков"""
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     permission_classes = [IsAuthorComment]
 
-    def get(self, request, format=None):
-        likes = Like.objects.all()
-        serializer = LikeSerializer(likes, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = LikeSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save(userInfo=self.request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def perform_create(self, serializer):
+        serializer.save(userInfo=self.request.user)
