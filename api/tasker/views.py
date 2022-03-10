@@ -1,4 +1,4 @@
-from django.db.models import F, Sum, Avg
+from django.db.models import F, Sum, Avg, Q
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, status
 from rest_framework.generics import ListAPIView, GenericAPIView
@@ -30,7 +30,7 @@ class ReadOnly(BasePermission):
         return request.method in SAFE_METHODS
 
 
-class TaskView(generics.ListCreateAPIView):
+class TaskView(generics.CreateAPIView):
     """Добавление Задач"""
 
     queryset = Task.objects.all()
@@ -123,7 +123,7 @@ class LikeViewSet(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerProfileOrReadOnly]
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
-    lookup_field = 'id'
+    lookup_field = 'taskId'
 
 
 class FavouriteView(generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin,):
@@ -159,12 +159,25 @@ class FavouriteUserView(generics.ListAPIView):
             userInfo_id=self.kwargs.get('pk')).select_related('userInfo')
 
 
-class LikeView(generics.ListCreateAPIView):
+class LikeView(APIView):
     """Добавление лайков"""
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     permission_classes = [IsAuthorComment]
+
+    def post(self, request, pk):
+        likepost = Task.objects.filter(pk=pk)
+        check = Like.objects.filter(Q(userInfo=self.request.user) & Q(taskId_id=pk))
+        if (check.exists()):
+            return Response({
+                "status": status.HTTP_400_BAD_REQUEST,
+                "message": "Already Liked"
+            })
+        new_like = Like.objects.create(userInfo=self.request.user, taskId_id=pk)
+        new_like.save()
+        serializer = LikeSerializer(new_like)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def perform_create(self, serializer):
         serializer.save(userInfo=self.request.user)
