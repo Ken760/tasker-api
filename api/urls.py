@@ -14,7 +14,7 @@ urlpatterns = [
     path('task/user/<int:pk>/', TaskUserView.as_view()),
     path('task/comments/<int:pk>/', CommentsTaskView.as_view()),
     path('task/<int:pk>/like/', LikeView.as_view()),
-    path('task/like/delete/<int:id>/', LikeViewSet.as_view()),
+    path('task/like/delete/<int:pk>/', LikeView.as_view()),
     path('task/add/favourites/', FavouriteView.as_view()),
     path('task/delete/favourites/<int:id>/', FavouriteDeleteView.as_view()),
     path('user/favourites/<int:pk>/', FavouriteUserView.as_view()),

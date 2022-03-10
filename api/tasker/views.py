@@ -118,12 +118,12 @@ class CommentsTaskView(generics.ListAPIView):
             taskId=self.kwargs.get('pk')).select_related('taskId').order_by('-createdDate')
 
 
-class LikeViewSet(generics.RetrieveUpdateDestroyAPIView):
-    """Удаление лайков"""
-    permission_classes = [IsOwnerProfileOrReadOnly]
-    queryset = Like.objects.all()
-    serializer_class = LikeSerializer
-    lookup_field = 'id'
+# class LikeViewSet(generics.RetrieveUpdateDestroyAPIView):
+#     """Удаление лайков"""
+#     permission_classes = [IsOwnerProfileOrReadOnly]
+#     queryset = Like.objects.all()
+#     serializer_class = LikeSerializer
+#     lookup_field = 'id'
 
 
 class FavouriteView(generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin,):
@@ -159,7 +159,7 @@ class FavouriteUserView(generics.ListAPIView):
             userInfo_id=self.kwargs.get('pk')).select_related('userInfo')
 
 
-class LikeView(APIView):
+class LikeView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin):
     """Добавление лайков"""
 
     queryset = Like.objects.all()
@@ -167,7 +167,7 @@ class LikeView(APIView):
     permission_classes = [IsAuthorComment]
 
     def post(self, request, pk):
-        likepost = Task.objects.filter(pk=pk)
+        # likepost = Task.objects.filter(pk=pk)
         check = Like.objects.filter(Q(userInfo=self.request.user) & Q(taskId_id=pk))
         if (check.exists()):
             return Response({
@@ -179,5 +179,5 @@ class LikeView(APIView):
         serializer = LikeSerializer(new_like)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def perform_create(self, serializer):
-        serializer.save(userInfo=self.request.user)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
