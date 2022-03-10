@@ -123,7 +123,7 @@ class LikeViewSet(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsOwnerProfileOrReadOnly]
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
-    lookup_field = 'taskId'
+    lookup_field = 'id'
 
 
 class FavouriteView(generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin,):
