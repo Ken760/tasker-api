@@ -1,22 +1,8 @@
-from django.db.models import F, Sum, Avg, Q
+from django.db.models import F
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, status
-from rest_framework.generics import ListAPIView, GenericAPIView
-from rest_framework.status import HTTP_200_OK
+from rest_framework import status
 from rest_framework import mixins, generics
-from rest_framework.views import APIView
-
-from .serializers import (
-    TaskCreateSerializer,
-    CommentCreateSerializer,
-    LikeSerializer,
-    TaskMainPageSerializer,
-    MyCursorPagination,
-    CommentSerializer,
-    FavouriteAddSerializer,
-    FavouriteReceivingSerializer
-    )
-
+from .serializers import *
 from tasker.models import Task, Comment, Like, Favourite
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
@@ -118,14 +104,6 @@ class CommentsTaskView(generics.ListAPIView):
             taskId=self.kwargs.get('pk')).select_related('taskId').order_by('-createdDate')
 
 
-# class LikeViewSet(generics.RetrieveUpdateDestroyAPIView):
-#     """Удаление лайков"""
-#     permission_classes = [IsOwnerProfileOrReadOnly]
-#     queryset = Like.objects.all()
-#     serializer_class = LikeSerializer
-#     lookup_field = 'id'
-
-
 class FavouriteView(generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin,):
     """Добавление в избранное"""
 
@@ -167,17 +145,16 @@ class LikeView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyMode
     permission_classes = [IsAuthorComment]
 
     def post(self, request, pk):
-        # likepost = Task.objects.filter(pk=pk)
-        check = Like.objects.filter(Q(userInfo=self.request.user) & Q(taskId_id=pk))
-        if (check.exists()):
+        if Like.objects.filter(userInfo=self.request.user, taskId=pk).exists():
+            Like.objects.filter(userInfo=self.request.user, taskId_id=pk).delete()
             return Response({
                 "status": status.HTTP_400_BAD_REQUEST,
-                "message": "Already Liked"
+                "message": "Delete"
             })
-        new_like = Like.objects.create(userInfo=self.request.user, taskId_id=pk)
-        new_like.save()
-        serializer = LikeSerializer(new_like)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            Like.objects.create(userInfo=self.request.user, taskId_id=pk)
+            return Response({
+                "status": status.HTTP_400_BAD_REQUEST,
+                "message": "Create"
+            })
 
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)

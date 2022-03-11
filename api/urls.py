@@ -1,4 +1,4 @@
-from django.urls import include, path, re_path
+from django.urls import path
 from api.tasker.views import *
 from api.accounts.views import UserProfileDetailView
 from rest_framework.urlpatterns import format_suffix_patterns
@@ -14,7 +14,6 @@ urlpatterns = [
     path('task/user/<int:pk>/', TaskUserView.as_view()),
     path('task/comments/<int:pk>/', CommentsTaskView.as_view()),
     path('task/<int:pk>/like/', LikeView.as_view()),
-    path('task/like/delete/<int:pk>/', LikeView.as_view()),
     path('task/add/favourites/', FavouriteView.as_view()),
     path('task/delete/favourites/<int:id>/', FavouriteDeleteView.as_view()),
     path('user/favourites/<int:pk>/', FavouriteUserView.as_view()),
