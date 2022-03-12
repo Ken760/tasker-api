@@ -148,13 +148,13 @@ class LikeView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyMode
         if Like.objects.filter(userInfo=self.request.user, taskId=pk).exists():
             Like.objects.filter(userInfo=self.request.user, taskId_id=pk).delete()
             return Response({
-                "status": status.HTTP_400_BAD_REQUEST,
+                "status": status.HTTP_200_OK,
                 "message": "Delete"
             })
         else:
             Like.objects.create(userInfo=self.request.user, taskId_id=pk)
             return Response({
-                "status": status.HTTP_400_BAD_REQUEST,
+                "status": status.HTTP_201_CREATED,
                 "message": "Create"
             })
 
