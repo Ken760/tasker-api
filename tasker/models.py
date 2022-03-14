@@ -63,7 +63,7 @@ class Task(models.Model):
         return f"{self.likes.count()}"
 
     def get_hasSelfLike(self):
-        return self.likes.values_list('userInfo_id', 'userInfo__id')
+        return self.userInfo_id in self.likes.values_list('userInfo_id', flat=True)
 
     def __str__(self):
         return self.title
