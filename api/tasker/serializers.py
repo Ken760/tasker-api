@@ -65,6 +65,7 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     rating = serializers.FloatField(read_only=True)
     userInfo = UserInfoSerializer(read_only=True)
     likes = LikeSerializer(many=True, read_only=True)
+    favourites = FavouriteAddSerializer(many=True, read_only=True)
     likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
     hasSelfLike = serializers.BooleanField(source='get_hasSelfLike', read_only=True)
 
