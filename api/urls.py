@@ -14,9 +14,8 @@ urlpatterns = [
     path('task/user/<int:pk>/', TaskUserView.as_view()),
     path('task/comments/<int:pk>/', CommentsTaskView.as_view()),
     path('task/<int:pk>/like/', LikeView.as_view()),
-    path('task/add/favourites/', FavouriteView.as_view()),
-    path('task/delete/favourites/<int:id>/', FavouriteDeleteView.as_view()),
-    path('user/favourites/<int:pk>/', FavouriteUserView.as_view()),
+    path('task/<int:pk>/favourite/', FavouriteView.as_view()),
+    path('user/<int:pk>/favourites/', FavouriteUserView.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

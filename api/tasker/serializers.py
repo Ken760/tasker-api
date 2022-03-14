@@ -58,14 +58,6 @@ class FavouriteAddSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class FavouriteReceivingSerializer(serializers.ModelSerializer):
-    """Сериализация получения избранных задач"""
-
-    class Meta:
-        model = Favourite
-        fields = ('id', 'taskId')
-
-
 class TaskCreateSerializer(serializers.ModelSerializer):
     """Сериализация задач"""
     comments = CommentSerializer(many=True, read_only=True)
@@ -100,7 +92,16 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Task
-        fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate', 'updatedDate', 'uuid', 'followings', 'commentsCount', 'likeCount']
+        fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate', 'updatedDate', 'uuid', 'commentsCount', 'likeCount']
+
+
+class FavouriteReceivingSerializer(serializers.ModelSerializer):
+    """Сериализация получения избранных задач"""
+    taskId = TaskMainPageSerializer(read_only=True)
+
+    class Meta:
+        model = Favourite
+        fields = ('id', 'taskId')
 
 
 class MyCursorPagination(LimitOffsetPagination):

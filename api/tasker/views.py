@@ -104,41 +104,19 @@ class CommentsTaskView(generics.ListAPIView):
             taskId=self.kwargs.get('pk')).select_related('taskId').order_by('-createdDate')
 
 
-class FavouriteView(generics.CreateAPIView, generics.UpdateAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin,):
-    """Добавление в избранное"""
-
-    permission_classes = [IsAuthorComment]
-    querysert = Favourite.objects.all()
-    serializer_class = FavouriteAddSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(userInfo=self.request.user)
-
-
-class FavouriteDeleteView(mixins.DestroyModelMixin, generics.GenericAPIView):
-    """Удаление из избранного"""
-
-    queryset = Favourite.objects.all()
-    serializer_class = FavouriteReceivingSerializer
-    permission_classes = [IsAuthorComment]
-    lookup_field = 'id'
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
-
-
 class FavouriteUserView(generics.ListAPIView):
     """Получение избранных по id пользователя"""
 
     serializer_class = FavouriteReceivingSerializer
+    pagination_class = MyCursorPagination
 
     def get_queryset(self):
         return Favourite.objects.filter(
-            userInfo_id=self.kwargs.get('pk')).select_related('userInfo')
+            userInfo_id=self.kwargs.get('pk')).select_related('userInfo').order_by('userInfo_id')
 
 
 class LikeView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin):
-    """Добавление лайков"""
+    """Добавление|Удаление лайков"""
 
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
@@ -158,3 +136,25 @@ class LikeView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyMode
                 "message": "Create"
             })
 
+
+class FavouriteView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin):
+    """Добавление|Удаление лайков"""
+
+    querysert = Favourite.objects.all()
+    serializer_class = FavouriteAddSerializer
+    permission_classes = [IsAuthorComment]
+
+
+    def post(self, request, pk):
+        if Favourite.objects.filter(userInfo=self.request.user, taskId=pk).exists():
+            Favourite.objects.filter(userInfo=self.request.user, taskId_id=pk).delete()
+            return Response({
+                "status": status.HTTP_200_OK,
+                "message": "Delete"
+            })
+        else:
+            Favourite.objects.create(userInfo=self.request.user, taskId_id=pk)
+            return Response({
+                "status": status.HTTP_201_CREATED,
+                "message": "Create"
+            })
