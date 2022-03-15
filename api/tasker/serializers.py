@@ -102,10 +102,28 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
     text = CustomCharField(repr_length=200)
     commentsCount = serializers.IntegerField(source="get_count_comments", read_only=True)
     likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
+    hasSelfLike = serializers.SerializerMethodField()
+    hasSelfBookmark = serializers.SerializerMethodField()
 
     class Meta:
         model = Task
-        fields = ['id', 'title', 'language', 'category', 'difficult', 'text', 'theme', 'createdDate', 'updatedDate', 'uuid', 'commentsCount', 'likeCount']
+        fields = [
+            'id', 'title', 'language', ''
+            'category', 'difficult', 'text',
+            'theme', 'createdDate', 'updatedDate',
+            'uuid', 'commentsCount', 'likeCount',
+            'hasSelfLike', 'hasSelfBookmark'
+        ]
+
+    def get_hasSelfLike(self, obj) -> bool:
+        """Проверяет, лайкнул ли `request.user` пост"""
+        user = self.context.get('request').user
+        return services.hasSelfLike(obj, user)
+
+    def get_hasSelfBookmark(self, obj) -> bool:
+        """Проверяет, добавил ли `request.user` пост в избранное"""
+        user = self.context.get('request').user
+        return services.hasSelfBookmark(obj, user)
 
 
 class FavouriteReceivingSerializer(serializers.ModelSerializer):
