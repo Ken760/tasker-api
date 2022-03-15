@@ -5,6 +5,7 @@ from rest_framework.relations import PrimaryKeyRelatedField
 from drf_writable_nested.serializers import WritableNestedModelSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
+from api.tasker import services as likes_services
 
 
 class UserInfoSerializer(serializers.ModelSerializer):
@@ -67,11 +68,16 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     likes = LikeSerializer(many=True, read_only=True)
     favourites = FavouriteAddSerializer(many=True, read_only=True)
     likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
-    hasSelfLike = serializers.BooleanField(source='get_hasSelfLike', read_only=True)
+    hasSelfLike = serializers.SerializerMethodField()
 
     class Meta:
         model = Task
         fields = "__all__"
+
+    def get_hasSelfLike(self, obj) -> bool:
+        """Проверяет, лайкнул ли `request.user` пост."""
+        user = self.context.get('request').user
+        return likes_services.is_fan(obj, user)
 
 
 class CustomCharField(serializers.CharField):
