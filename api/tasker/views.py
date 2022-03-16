@@ -88,6 +88,7 @@ class TaskUserView(generics.ListAPIView):
     """Получение постов пользователя"""
 
     serializer_class = TaskCreateSerializer
+    pagination_class = MyCursorPagination
 
     def get_queryset(self):
         return Task.objects.filter(
