@@ -2,12 +2,14 @@ from django.db.models import F
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework import mixins, generics
+from rest_framework.views import APIView
+
 from .serializers import *
 from tasker.models import Task, Comment, Like, Favourite
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
 from rest_framework import filters
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from ..accounts.permissions import IsOwnerProfileOrReadOnly, IsAuthorComment
 
 
@@ -112,8 +114,7 @@ class FavouriteUserView(generics.ListAPIView):
     pagination_class = MyCursorPagination
 
     def get_queryset(self):
-        return Favourite.objects.filter(
-            userInfo_id=self.kwargs.get('pk')).select_related('userInfo').order_by('userInfo_id')
+        return Favourite.objects.filter(userInfo=self.request.user)
 
 
 class LikeView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin):
@@ -139,12 +140,11 @@ class LikeView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyMode
 
 
 class FavouriteView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin):
-    """Добавление|Удаление лайков"""
+    """Добавление|Удаление избранных задач"""
 
     querysert = Favourite.objects.all()
     serializer_class = FavouriteAddSerializer
     permission_classes = [IsAuthorComment]
-
 
     def post(self, request, pk):
         if Favourite.objects.filter(userInfo=self.request.user, taskId=pk).exists():
