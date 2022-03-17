@@ -129,7 +129,7 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
 
 class FavouriteReceivingSerializer(serializers.ModelSerializer):
     """Сериализация получения избранных задач"""
-    taskId = TaskMainPageSerializer(read_only=True)
+    # taskId = TaskMainPageSerializer(read_only=True)
 
     class Meta:
         model = Favourite
