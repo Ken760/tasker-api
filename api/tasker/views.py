@@ -110,14 +110,14 @@ class CommentsTaskView(generics.ListAPIView):
 class FavouriteUserView(generics.ListAPIView):
     """Получение избранных по id пользователя"""
 
-    serializer_class = FavouriteReceivingSerializer
+    serializer_class = TaskMainPageSerializer
     pagination_class = MyCursorPagination
     permission_classes = [IsOwnerProfileOrReadOnly, ]
 
     def get_queryset(self):
         if self.request.user.is_anonymous:
             return ""
-        return Favourite.objects.filter(userInfo=self.request.user)
+        return Task.objects.filter(favourites__userInfo=self.request.user)
 
 
 class LikeView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin):
