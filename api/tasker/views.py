@@ -89,7 +89,7 @@ class CommentsChangeView(generics.RetrieveUpdateDestroyAPIView):
 class TaskUserView(generics.ListAPIView):
     """Получение постов пользователя"""
 
-    serializer_class = TaskCreateSerializer
+    serializer_class = TaskMainPageSerializer
     pagination_class = MyCursorPagination
 
     def get_queryset(self):
