@@ -112,8 +112,11 @@ class FavouriteUserView(generics.ListAPIView):
 
     serializer_class = FavouriteReceivingSerializer
     pagination_class = MyCursorPagination
+    permission_classes = [IsOwnerProfileOrReadOnly, ]
 
     def get_queryset(self):
+        if self.request.user.is_anonymous:
+            return ""
         return Favourite.objects.filter(userInfo=self.request.user)
 
 

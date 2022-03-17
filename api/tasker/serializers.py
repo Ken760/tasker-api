@@ -68,6 +68,7 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     # likes = LikeSerializer(many=True, read_only=True)
     # favourites = FavouriteAddSerializer(many=True, read_only=True)
     likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
+    commentsCount = serializers.IntegerField(source="get_count_comments", read_only=True)
     hasSelfLike = serializers.SerializerMethodField()
     hasSelfBookmark = serializers.SerializerMethodField()
 
