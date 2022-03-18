@@ -1,9 +1,5 @@
-from rest_framework.generics import (
-    ListCreateAPIView,
-    RetrieveUpdateDestroyAPIView,
-)
+from rest_framework.generics import RetrieveUpdateDestroyAPIView,
 from .permissions import IsOwnerProfileOrReadOnly
-# from .serializers import UserProfileSerializer
 from django.contrib.auth import get_user_model
 
 from ..tasker.serializers import UserInfoSerializer
