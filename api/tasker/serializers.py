@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from tasker.models import Task, Comment, Like, Favourite
-from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
+from rest_framework.relations import PrimaryKeyRelatedField
+from drf_writable_nested.serializers import WritableNestedModelSerializer
 from django.contrib.auth import get_user_model
 User = get_user_model()
 from api.tasker import services
@@ -63,6 +65,8 @@ class TaskCreateSerializer(serializers.ModelSerializer):
     createdDate = serializers.DateTimeField(read_only=True)
     rating = serializers.FloatField(read_only=True)
     userInfo = UserInfoSerializer(read_only=True)
+    # likes = LikeSerializer(many=True, read_only=True)
+    # favourites = FavouriteAddSerializer(many=True, read_only=True)
     likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
     commentsCount = serializers.IntegerField(source="get_count_comments", read_only=True)
     hasSelfLike = serializers.SerializerMethodField()

@@ -2,11 +2,14 @@ from django.db.models import F
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework import mixins, generics
+from rest_framework.views import APIView
+
 from .serializers import *
 from tasker.models import Task, Comment, Like, Favourite
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
 from rest_framework import filters
+from django.contrib.auth.mixins import LoginRequiredMixin
 from ..accounts.permissions import IsOwnerProfileOrReadOnly, IsAuthorComment
 
 
@@ -98,7 +101,6 @@ class CommentsTaskView(generics.ListAPIView):
     """Получение комментариев по id поста"""
 
     serializer_class = CommentSerializer
-    pagination_class = MyCursorPagination
 
     def get_queryset(self):
         return Comment.objects.filter(
