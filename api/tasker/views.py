@@ -101,7 +101,7 @@ class CommentsTaskView(generics.ListAPIView):
     """Получение комментариев по id поста"""
 
     serializer_class = CommentSerializer
-    pagination_class = MyCursorPagination
+    # pagination_class = MyCursorPagination
 
     def get_queryset(self):
         return Comment.objects.filter(
