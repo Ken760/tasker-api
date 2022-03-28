@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 User = get_user_model()
-from tasker.models import Like, Favourite
+from tasker.models import Like, Favourite, Task
 
 
 def hasSelfLike(pk, user) -> bool:
@@ -13,7 +13,7 @@ def hasSelfLike(pk, user) -> bool:
 
 
 def hasSelfBookmark(pk, user) -> bool:
-    """Проверка добавлен ли пост в закладки у пользователят"""
+    """Проверка добавлен ли пост в закладки у пользователя"""
     if not user.is_authenticated:
         return False
     favourites = Favourite.objects.filter(userInfo=user, taskId=pk)

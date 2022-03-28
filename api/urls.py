@@ -16,6 +16,7 @@ urlpatterns = [
     path('task/<int:pk>/like/', LikeView.as_view()),
     path('task/<int:pk>/favourite/', FavouriteView.as_view()),
     path('task/favourite/', FavouriteUserView.as_view()),
+    path('task/recom/<int:pk>/', RecommendationTaskView.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

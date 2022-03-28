@@ -2,15 +2,13 @@ from django.db.models import F
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status
 from rest_framework import mixins, generics
-from rest_framework.views import APIView
-
 from .serializers import *
 from tasker.models import Task, Comment, Like, Favourite
 from rest_framework.response import Response
 from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
 from rest_framework import filters
-from django.contrib.auth.mixins import LoginRequiredMixin
 from ..accounts.permissions import IsOwnerProfileOrReadOnly, IsAuthorComment
+import random
 
 
 class ReadOnly(BasePermission):
@@ -163,3 +161,33 @@ class FavouriteView(generics.ListAPIView, generics.DestroyAPIView, mixins.Destro
                 "status": status.HTTP_201_CREATED,
                 "message": "Create"
             })
+
+
+# def pick_random_object():
+#    # return random.randrange(1, Task.objects.all().count() + 1)
+#    #  return random.sample(Task.objects.all().counts(), 3)
+#    pks = Task.objects.values_list('pk', flat=True)
+#    random_pk = random.choice(pks)
+#    random_obj = Task.objects.get(pk=random_pk)
+
+
+class RecommendationTaskView(generics.ListAPIView):
+    """"""
+
+    serializer_class = TaskCreateSerializer
+    lookup_field = 'language'
+    # pagination_class = MyCursorPagination
+
+    def get_queryset(self):
+        # pks = Task.objects.values_list('pk', flat=True)
+        # random_pk = random.choices(pks, k=3)
+        # random_obj = Task.objects.get(pk=random_pk)
+        try:
+            items = list(Task.objects.filter(
+                userInfo_id=self.kwargs.get('pk')).select_related('userInfo'))
+            random_items = random.sample(items, 3)
+            return random_items
+        except:
+            return None
+        # return random.choices(Task.objects.all().exclude(userInfo=self.request.user).distinct())
+
