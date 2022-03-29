@@ -182,12 +182,17 @@ class RecommendationTaskView(generics.ListAPIView):
         # pks = Task.objects.values_list('pk', flat=True)
         # random_pk = random.choices(pks, k=3)
         # random_obj = Task.objects.get(pk=random_pk)
-        try:
-            items = list(Task.objects.filter(
-                userInfo_id=self.kwargs.get('pk')).select_related('userInfo'))
-            random_items = random.sample(items, 3)
-            return random_items
-        except:
-            return None
+        userInfo_id = self.kwargs.get('pk')
+        id = self.kwargs.get('id')
+        items = list(Task.objects.filter(userInfo=userInfo_id).exclude(id=id))
+        random_items = random.sample(items, 1)
+        return random_items
+        # try:
+        #     items = list(Task.objects.filter(
+        #         userInfo_id=self.kwargs.get('pk')).select_related('userInfo'))
+        #     random_items = random.sample(items, 3)
+        #     return random_items
+        # except:
+        #     return None
         # return random.choices(Task.objects.all().exclude(userInfo=self.request.user).distinct())
 
