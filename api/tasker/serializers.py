@@ -12,7 +12,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'activity', 'nickname', 'fullname', 'joinedDate')
+        fields = ('id', 'activity', 'fullname', 'joinedDate')
 
 
 class UserCommentSerializer(serializers.ModelSerializer):
