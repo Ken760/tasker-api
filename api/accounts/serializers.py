@@ -13,6 +13,6 @@ class UserCreateSerializer(serializers.ModelSerializer):
         model = UserAccount
         fields = [
             'id', 'email', 'password', 'first_name',
-            'last_name',  'activity', 'nickname', 'joinedDate',
-            'picture', 'username', 'fullname'
+            'last_name',  'activity', 'callsign', 'joinedDate',
+             'username', 'fullname', 'description', 'telegram'
         ]

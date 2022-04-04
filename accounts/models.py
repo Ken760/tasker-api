@@ -31,19 +31,19 @@ class UserAccount(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
     activity = models.CharField('Активность', max_length=100, blank=True, null=True)
-    nickname = models.CharField('Прозвище', max_length=50, blank=True, null=True)
+    callsign = models.CharField('Прозвище', max_length=50, blank=True, null=True)
+    description = models.CharField(max_length=250, blank=True, null=True)
+    telegram = models.CharField(max_length=100, blank=True, null=True)
     joined_date = models.DateTimeField(auto_now_add=True, name='joinedDate')
-    picture = models.CharField(max_length=255)
     fullname = models.CharField(max_length=100)
     username = models.CharField(max_length=100)
-    # task = models.ForeignKey('tasker.Task', blank=True, null=True, on_delete=models.CASCADE, related_name='Задачи')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
     objects = UserAccountManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'nickname', 'activity']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'activity']
 
     def get_full_name(self):
         return self.first_name
