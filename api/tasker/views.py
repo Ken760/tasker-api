@@ -121,6 +121,13 @@ class FavouriteUserView(generics.ListAPIView):
         return Task.objects.filter(favourites__userInfo=self.request.user)
 
 
+class CollectionView(generics.ListAPIView):
+    """Получение названия коллекций"""
+
+    serializer_class = CollectionMainPageSerializer
+    pagination_class = MyCursorPagination
+
+
 class LikeView(generics.ListAPIView, generics.DestroyAPIView, mixins.DestroyModelMixin):
     """Добавление|Удаление лайков"""
 
