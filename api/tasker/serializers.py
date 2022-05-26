@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from tasker.models import Task, Comment, Like, Favourite
+from tasker.models import *
 from rest_framework.pagination import PageNumberPagination, CursorPagination, LimitOffsetPagination
 from rest_framework.relations import PrimaryKeyRelatedField
 from drf_writable_nested.serializers import WritableNestedModelSerializer
@@ -129,11 +129,18 @@ class TaskMainPageSerializer(serializers.ModelSerializer):
 
 class FavouriteReceivingSerializer(serializers.ModelSerializer):
     """Сериализация получения избранных задач"""
-    # taskId = TaskMainPageSerializer(read_only=True)
 
     class Meta:
         model = Favourite
         fields = ('id', 'taskId')
+
+
+class CollectionMainPageSerializer(serializers.ModelSerializer):
+    """Сериализация коллекций для отображения на главной странице"""
+
+    class Meta:
+        model = Collection
+        fields = ('id', 'name')
 
 
 class MyCursorPagination(LimitOffsetPagination):
