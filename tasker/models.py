@@ -106,3 +106,15 @@ class Favourite(models.Model):
     class Meta:
         verbose_name = "Избранное"
         verbose_name_plural = "Избранные"
+
+
+class Collection(models.Model):
+    """Коллекция с задачами"""
+    name = models.CharField(max_length=100, null=True, blank=True,)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "Коллекция"
+        verbose_name_plural = "Коллекции"
