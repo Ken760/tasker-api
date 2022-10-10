@@ -62,6 +62,10 @@ class Task(models.Model):
     def get_count_likes(self):
         return f"{self.likes.count()}"
 
+    def get_recommendations(self):
+        items = Task.objects.filter(language=self.language).exclude(id=self.id)[:3]
+        return items
+
     def __str__(self):
         return self.title
 

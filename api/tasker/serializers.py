@@ -59,34 +59,6 @@ class FavouriteAddSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class TaskCreateSerializer(serializers.ModelSerializer):
-    """Сериализация задач"""
-    comments = CommentSerializer(many=True, read_only=True)
-    createdDate = serializers.DateTimeField(read_only=True)
-    rating = serializers.FloatField(read_only=True)
-    userInfo = UserInfoSerializer(read_only=True)
-    # likes = LikeSerializer(many=True, read_only=True)
-    # favourites = FavouriteAddSerializer(many=True, read_only=True)
-    likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
-    commentsCount = serializers.IntegerField(source="get_count_comments", read_only=True)
-    hasSelfLike = serializers.SerializerMethodField()
-    hasSelfBookmark = serializers.SerializerMethodField()
-
-    class Meta:
-        model = Task
-        fields = "__all__"
-
-    def get_hasSelfLike(self, obj) -> bool:
-        """Проверяет, лайкнул ли `request.user` пост"""
-        user = self.context.get('request').user
-        return services.hasSelfLike(obj, user)
-
-    def get_hasSelfBookmark(self, obj) -> bool:
-        """Проверяет, добавил ли `request.user` пост в избранное"""
-        user = self.context.get('request').user
-        return services.hasSelfBookmark(obj, user)
-
-
 class CustomCharField(serializers.CharField):
     """Кастомный сериализатор для ограничения текста"""
     def __init__(self, repr_length, **kwargs):
@@ -141,6 +113,35 @@ class CollectionMainPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
         fields = ('id', 'name')
+
+
+class TaskCreateSerializer(serializers.ModelSerializer):
+    """Сериализация задач"""
+    comments = CommentSerializer(many=True, read_only=True)
+    createdDate = serializers.DateTimeField(read_only=True)
+    rating = serializers.FloatField(read_only=True)
+    userInfo = UserInfoSerializer(read_only=True)
+    # likes = LikeSerializer(many=True, read_only=True)
+    # favourites = FavouriteAddSerializer(many=True, read_only=True)
+    likeCount = serializers.IntegerField(source='get_count_likes', read_only=True)
+    commentsCount = serializers.IntegerField(source="get_count_comments", read_only=True)
+    hasSelfLike = serializers.SerializerMethodField()
+    hasSelfBookmark = serializers.SerializerMethodField()
+    recommendations = TaskMainPageSerializer(source='get_recommendations', many=True)
+
+    class Meta:
+        model = Task
+        fields = "__all__"
+
+    def get_hasSelfLike(self, obj) -> bool:
+        """Проверяет, лайкнул ли `request.user` пост"""
+        user = self.context.get('request').user
+        return services.hasSelfLike(obj, user)
+
+    def get_hasSelfBookmark(self, obj) -> bool:
+        """Проверяет, добавил ли `request.user` пост в избранное"""
+        user = self.context.get('request').user
+        return services.hasSelfBookmark(obj, user)
 
 
 class MyCursorPagination(LimitOffsetPagination):
