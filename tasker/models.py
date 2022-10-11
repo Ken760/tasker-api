@@ -1,5 +1,5 @@
 import uuid
-
+import random
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.conf import settings
@@ -63,8 +63,9 @@ class Task(models.Model):
         return f"{self.likes.count()}"
 
     def get_recommendations(self):
-        items = Task.objects.filter(language=self.language).exclude(id=self.id)[:3]
-        return items
+        items = list(Task.objects.filter(language=self.language).exclude(id=self.id))[:3]
+        random_items = random.sample(items, 3)
+        return random_items
 
     def __str__(self):
         return self.title
