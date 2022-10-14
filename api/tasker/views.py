@@ -44,7 +44,7 @@ class TaskPaginationView(generics.ListAPIView):
     serializer_class = TaskMainPageSerializer
     pagination_class = MyCursorPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ('language', 'category', 'createdDate', 'difficult')
+    filterset_fields = ('language', 'category', 'createdDate', 'difficult', 'isConfirmed')
     search_fields = ['language', 'difficult', 'category', 'title', 'text']
     ordering_fields = '__all__'
 
