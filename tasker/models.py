@@ -64,8 +64,11 @@ class Task(models.Model):
 
     def get_recommendations(self):
         items = list(Task.objects.filter(language=self.language).exclude(id=self.id))[:3]
-        random_items = random.sample(items, 3)
-        return random_items
+        try:
+            random_items = random.sample(items, 3)
+            return random_items
+        except:
+            return items
 
     def __str__(self):
         return self.title
