@@ -39,7 +39,7 @@ class PostDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 class TaskPaginationView(generics.ListAPIView):
-    """Пагинация для задач"""
+    """Пагинация/фильтрация для задач"""
     queryset = Task.objects.get_queryset().order_by('-followings')
     serializer_class = TaskMainPageSerializer
     pagination_class = MyCursorPagination
